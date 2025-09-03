@@ -29,3 +29,40 @@ Output:
 Mengapa sangat penting untuk memahami bahasa pemrograman Dart sebelum kita menggunakan framework Flutter ? Jelaskan!
 
 **Jawab:** karena Flutter dibangun menggunakan bahasa pemrograman Dart, maka sangat penting memahami Dart terlebih dahulu agar lebih mudah dalam mempelajari sintaks, konsep OOP, dan pemrograman asinkron yang digunakan di Flutter, sehingga saat membuat projek nanti akan menjadi lebih mudah.
+
+## Soal 3
+Rangkumlah materi dari codelab ini menjadi poin-poin penting yang dapat Anda gunakan untuk membantu proses pengembangan aplikasi mobile menggunakan framework Flutter.
+
+**Jawab:**
+### 📌 Poin-Poin Penting
+1. **Pengantar Dart**  
+   - Bahasa inti Flutter, modern, tingkat tinggi, dan berorientasi objek.  
+   - Menjadi dasar penting untuk pengembangan aplikasi Flutter.  
+
+2. **Keunggulan Dart**  
+   - Productive tooling (analisis kode, plugin IDE, ekosistem paket).  
+   - Garbage collection untuk mengelola memori.  
+   - Type annotations opsional dengan static typing & type safety.  
+   - Portabilitas: bisa dikompilasi ke JavaScript dan native (ARM/x86).  
+
+3. **Evolusi atau Sejarah Dart**  
+   - Diluncurkan 2011, stabil 2013, Dart 2.0 pada 2018.  
+   - Awalnya ditujukan untuk menggantikan JavaScript, kini fokus ke mobile.  
+   - Dirancang fleksibel, kuat, modern, dan lintas platform.  
+
+4. **Cara Kerja Dart**  
+   - Mendukung eksekusi melalui Dart VM (JIT) dan kompilasi AOT.  
+   - JIT: digunakan saat pengembangan, mendukung debugging & hot reload.  
+   - AOT: digunakan saat produksi, performa lebih cepat.  
+   - Hot reload memungkinkan feedback cepat dalam pengembangan Flutter.  
+
+5. **Struktur Bahasa Dart**  
+   - Sintaks mirip C/Java/JavaScript sehingga mudah dipelajari.  
+   - Semua data adalah objek, tidak ada primitive types.  
+   - Mendukung OOP: encapsulation, inheritance, polymorphism, abstraction.  
+
+6. **Operator Penting di Dart**  
+   - **Aritmatika**: `+`, `-`, `*`, `/`, `~/`, `%`, `-expr`.  
+   - **Increment & Decrement**: `++var`, `var++`, `--var`, `var--`.  
+   - **Equality & Relational**: `==`, `!=`, `<`, `>`, `<=`, `>=`.  
+   - **Logical**: `!`, `&&`, `||`.  
