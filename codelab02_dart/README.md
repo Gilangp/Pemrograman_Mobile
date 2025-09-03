@@ -34,7 +34,7 @@ Mengapa sangat penting untuk memahami bahasa pemrograman Dart sebelum kita mengg
 Rangkumlah materi dari codelab ini menjadi poin-poin penting yang dapat Anda gunakan untuk membantu proses pengembangan aplikasi mobile menggunakan framework Flutter.
 
 **Jawab:**
-### 📌 Poin-Poin Penting
+### Poin-Poin Penting
 1. **Pengantar Dart**  
    - Bahasa inti Flutter, modern, tingkat tinggi, dan berorientasi objek.  
    - Menjadi dasar penting untuk pengembangan aplikasi Flutter.  
@@ -65,4 +65,57 @@ Rangkumlah materi dari codelab ini menjadi poin-poin penting yang dapat Anda gun
    - **Aritmatika**: `+`, `-`, `*`, `/`, `~/`, `%`, `-expr`.  
    - **Increment & Decrement**: `++var`, `var++`, `--var`, `var--`.  
    - **Equality & Relational**: `==`, `!=`, `<`, `>`, `<=`, `>=`.  
-   - **Logical**: `!`, `&&`, `||`.  
+   - **Logical**: `!`, `&&`, `||`.
+
+## Soal 4
+Buatlah penjelasan dan contoh eksekusi kode tentang perbedaan Null Safety dan Late variabel !
+
+**Jawab:**
+### Null Safety
+- Null Safety adalah fitur Dart untuk mencegah error akibat nilai `null`.  
+- Variabel ini secara default tidak boleh bernilai null, kecuali ditandai dengan tanda `?`.  
+- Membantu mengurangi error `null reference` saat program dijalankan.  
+
+**Contoh Kode:**
+```dart
+void main() {
+  String nama = "Gilang";   // Tidak boleh null
+  String? hobi;             // Boleh null karena menggunakan tanda ?
+
+  print(nama);              // Output: Gilang
+  print(hobi);              // Output: null
+}
+```
+
+**Contoh Error Null Safety:**
+```dart
+void main() {
+  String nama;   // Error
+  print(nama);
+}
+```
+
+### Late Variable
+- late digunakan untuk mendeklarasikan variabel yang belum diinisialisasi saat deklarasi, tetapi akan diisi nilainya sebelum digunakan.
+- Cocok untuk `lazy initialization`, misalnya nilai baru diberikan saat dibutuhkan.
+- Jika dipakai sebelum diinisialisasi → akan menyebabkan `error runtime`.
+
+**Contoh Kode:**
+```dart
+void main() {
+  late String kata;
+
+  kata = "Halo, Dart!";     // Inisialisasi sebelum dipakai
+  print(kata);              // Output: Halo, Dart!
+}
+```
+
+**Contoh Error Late Variable:**
+```dart
+void main() {
+  late String pesan;
+
+  // Error saat dirun karena 'pesan' belum diinisialisasi
+  print(pesan);
+}
+```
