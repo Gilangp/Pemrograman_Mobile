@@ -79,21 +79,30 @@ Buatlah penjelasan dan contoh eksekusi kode tentang perbedaan Null Safety dan La
 **Contoh Kode:**
 ```dart
 void main() {
-  String nama = "Gilang";   // Tidak boleh null
-  String? hobi;             // Boleh null karena menggunakan tanda ?
+  String nama = "Hallo, saya Gilang";   // Tidak boleh null
+  String? hobi;                         // Boleh null karena menggunakan tanda ?
 
-  print(nama);              // Output: Gilang
-  print(hobi);              // Output: null
+  print(nama);      // Output: Gilang
+  print(hobi);      // Output: null
 }
 ```
+**Output:**
+<p align = "center">
+    <img src = "img\Null Safety.png" alt = "output" width = "300"/>
+</p>
 
 **Contoh Error Null Safety:**
 ```dart
 void main() {
-  String nama;   // Error
+  String nama;   // akan error
   print(nama);
 }
 ```
+
+**Output:**
+<p align = "center">
+    <img src = "img\Error Null Safety.png" alt = "output" width = "800"/>
+</p>
 
 ### Late Variable
 - late digunakan untuk mendeklarasikan variabel yang belum diinisialisasi saat deklarasi, tetapi akan diisi nilainya sebelum digunakan.
@@ -105,17 +114,28 @@ void main() {
 void main() {
   late String kata;
 
-  kata = "Halo, Dart!";     // Inisialisasi sebelum dipakai
-  print(kata);              // Output: Halo, Dart!
+  kata = "Halo, Gilangpppp";     // inisialisasi sebelum dipakai
+  print(kata);                   // output: Halo, Gilangpppp
 }
 ```
+
+**Output:**
+
+<p align = "center">
+    <img src = "img\late variable.png" alt = "output" width = "300"/>
+</p>
 
 **Contoh Error Late Variable:**
 ```dart
 void main() {
   late String pesan;
 
-  // Error saat dirun karena 'pesan' belum diinisialisasi
+  // error ketika dirun karena 'pesan' belum diinisialisasi
   print(pesan);
 }
 ```
+
+**Output:**
+<p align = "center">
+    <img src = "img\error late variable.png" alt = "output" width = "800"/>
+</p>
