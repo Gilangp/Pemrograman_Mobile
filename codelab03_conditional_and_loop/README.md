@@ -29,7 +29,7 @@ Silakan coba eksekusi (Run) kode pada langkah 1 tersebut. Apa yang terjadi? Jela
 
 **Jawab:** 
 <p align = "center">
-    <img src = "img\SS output langkah 1.png" alt = "Gambar output langkah 1" width = "400"/>
+    <img src = "img\SS output langkah 1.png" alt = "Gambar output langkah 1" width = "200"/>
 </p>
 
 jadi saat program dijalankan dengan nilai variabel `test = "test2"` outputnya **Test2** dan **Test2 again**, karena kondisi `else if (test == "test2")` bernilai benar sehingga mencetak "Test2", dan pada percabangan berikutnya `if (test == "test2")` juga benar sehingga mencetak "Test2 again".
@@ -61,7 +61,7 @@ bool test1 = true;
 **Output:**
 
 <p align = "center">
-    <img src = "img\SS output langkah 3.png" alt = "Gambar output langkah 3" width = "400"/>
+    <img src = "img\SS output langkah 3.png" alt = "Gambar output langkah 3" width = "200"/>
 </p>
 
 ### Praktikum 2: Menerapkan Perulangan "while" dan "do-while"
@@ -95,7 +95,7 @@ int counter = 0;
 
 **Output:**
 
-![SS Output](/codelab03_loop/img/SS%20prak%202_langkah%201.png)
+![SS Output](/codelab03_conditional_and_loop/img/SS%20prak%202_langkah%201.png)
 
 **Langkah 3:**
 
@@ -114,7 +114,7 @@ Apa yang terjadi ? Jika terjadi error, silakan perbaiki namun tetap menggunakan 
 
 **Output:**
 
-![SS Output](/codelab03_loop/img/SS%20prak2_langkah%203.png)
+![SS Output](/codelab03_conditional_and_loop/img/SS%20prak2_langkah%203.png)
 
 ### Praktikum 3: Menerapkan Perulangan "for" dan "break-continue"
 
@@ -144,7 +144,7 @@ for (int index = 10; index < 27; index++) {
 
 **Output:**
 
-![SS Output](/codelab03_loop/img/SS%20prak%203_langkah%201.png)
+![SS Output](/codelab03_conditional_and_loop/img/SS%20prak%203_langkah%201.png)
 
 
 **Langkah 3**
@@ -163,7 +163,7 @@ Apa yang terjadi ? Jika terjadi error, silakan perbaiki namun tetap menggunakan 
 
 **Output:**
 
-![](/codelab03_loop/img/SS%20prak%203_langkah%203.png)
+![](/codelab03_conditional_and_loop/img/SS%20prak%203_langkah%203.png)
 
 ## 2. Buatlah sebuah program yang dapat menampilkan bilangan prima dari angka 0 sampai 201 menggunakan Dart. Ketika bilangan prima ditemukan, maka tampilkan nama lengkap dan NIM Anda.
 
@@ -176,17 +176,26 @@ void main() {
   String nama = "Gilang Purnomo";
   String nim = "2341720042";
 
-  print("Bilangan prima dari 0 sampai 201:");
+  print("Bilangan dari 0 sampai 201 dengan pengecekan bilangan prima:");
+
   for (int i = 0; i <= 201; i++) {
     bool prima = true;
-    for (int j = 2; j * j <= i; j++) {
-      if (i % j == 0) {
-        prima = false;
-        break;
+
+    if (i < 2) {
+      prima = false; // jadi 0 dan 1 bukan bilangan prima
+    } else {
+      for (int j = 2; j * j <= i; j++) {
+        if (i % j == 0) {
+          prima = false;
+          break;
+        }
       }
     }
+
     if (prima) {
       print("$i - $nama, NIM: $nim");
+    } else {
+      print("$i");
     }
   }
 }
@@ -194,7 +203,10 @@ void main() {
 
 **Output:**
 <p align = "center">
-    <img src = "img\SS tugas praktikum.png " alt = "Gambar output langkah 3" width = "400"/>
+    <img src = "img\SS tugas Prak first.png" alt = "Gambar output" width = "400"/>
+</p>
+<p align = "center">
+    <img src = "img\SS tugas Prak end.png" alt = "Gambar output" width = "400"/>
 </p>
 
-## 3. Kumpulkan berupa link commit repo GitHub pada tautan yang telah disediakan di grup Telegram!
+## Kumpulkan berupa link commit repo GitHub kepada dosen pengampu sesuai kesepakatan di kelas!
