@@ -109,6 +109,10 @@ Setelah berhasil, tulis remote name dengan **"origin"**
 
 Lakukan hal yang sama pada file **README.md** mulai dari Langkah 4. Setelah berhasil melakukan push, masukkan username GitHub Anda dan password berupa token yang telah dibuat (pengganti password konvensional ketika Anda login di browser GitHub). Reload halaman repository GitHub Anda, maka akan tampil hasil push kedua file tersebut seperti gambar berikut.
 
+<p align = "center">
+    <img src = "img\Prak_3_Langkah9.png" alt = "Output" width = "500"/>
+</p>
+
 **Langkah 10:**
 
 Lakukan push juga untuk semua file lainnya dengan pilih **Stage All Changes**. Beri pesan commit **"project hello_world"**. Maka akan tampil di repository GitHub Anda seperti berikut.
