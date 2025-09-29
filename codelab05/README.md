@@ -542,7 +542,7 @@ class _MyHomePageState extends State<MyHomePage> {
 Ketika di klik pilih tanggal maka akan menampilkan kalender untuk memilih tanggal yang akan ditampilkan 
 
 <p align = "center">
-    <img src = "img\Prak_5_Langkah6,2.png" alt = "Output" width = "700"/>
+    <img src = "img\Prak_5_langkah6,2.png" alt = "Output" width = "700"/>
 </p>
 
 <p align = "center">
