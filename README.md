@@ -1,4 +1,4 @@
-# 📱 Pemrograman Mobile - Identitas
+# 📱 Pemrograman Mobile
 
 **Nama   :** Gilang Purnomo  
 **NIM    :** 2341720042  
