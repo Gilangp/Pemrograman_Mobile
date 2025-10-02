@@ -13,7 +13,7 @@ Buatlah sebuah project flutter baru dengan nama layout_flutter. Atau sesuaikan s
 Buka file `main.dart` lalu ganti dengan kode berikut. Isi nama dan NIM Anda di `text title`.
 
 <p align = "center">
-    <img src = "img\Prak1_Langkah2.png" alt = "Output" width = "600"/>
+    <img src = "img\Prak1_L angkah2.png" alt = "Output" width = "600"/>
 </p>
 
 **Langkah 3: Identifikasi layout diagram**
@@ -88,3 +88,39 @@ https://docs.flutter.dev/codelabs/layout-basics
 </p>
 
 3. Kumpulkan link commit repository GitHub Anda kepada dosen yang telah disepakati!
+
+## Praktikum 5: Membangun Navigasi di Flutter
+
+**Langkah 1: Siapkan project baru**
+
+Sebelum melanjutkan praktikum, buatlah sebuah project baru Flutter dengan nama **belanja** dan susunan folder seperti pada gambar berikut. Penyusunan ini dimaksudkan untuk mengorganisasi kode dan widget yang lebih mudah.
+
+<p align = "center">
+    <img src = "img\prak5_Langkah1.png" alt = "Output" width = "200"/>
+</p>
+
+**Langkah 2: Mendefinisikan Route**
+
+Buatlah dua buah file dart dengan nama `home_page.dart` dan `item_page.dart` pada folder **pages**. Untuk masing-masing file, deklarasikan `class HomePage` pada file `home_page.dart` dan `ItemPage` pada `item_page.dart`. Turunkan class dari `StatelessWidget`. Gambaran potongan kode dapat anda lihat sebagai berikut.
+
+**Langkah 3: Lengkapi Kode di main.dart**
+
+Setelah kedua halaman telah dibuat dan didefinisikan, bukalah file `main.dart`. Pada langkah ini anda akan mendefinisikan **Route** untuk kedua halaman tersebut. Definisi penamaan **route** harus bersifat **unique**. Halaman **HomePage** didefinisikan sebagai /. Dan halaman **ItemPage** didefinisikan sebagai **/item**. Untuk mendefinisikan halaman awal, anda dapat menggunakan `named argument initialRoute`. Gambaran tahapan ini, dapat anda lihat pada potongan kode berikut.
+
+**Langkah 4: Membuat data model**
+
+Sebelum melakukan perpindahan halaman dari `HomePage` ke `ItemPage`, dibutuhkan proses pemodelan data. Pada desain mockup, dibutuhkan dua informasi yaitu nama dan harga. Untuk menangani hal ini, buatlah sebuah file dengan nama `item.dart` dan letakkan pada folder **models**. Pada file ini didefinisikan pemodelan data yang dibutuhkan. Ilustrasi kode yang dibutuhkan, dapat anda lihat pada potongan kode berikut.
+
+**Langkah 5: Lengkapi kode di class HomePage**
+
+Pada halaman `HomePage` terdapat `ListView` widget. Sumber data `ListView` diambil dari model List dari object Item. Gambaran kode yang dibutuhkan untuk melakukan definisi model dapat anda lihat sebagai berikut.
+
+**Langkah 6: Membuat ListView dan itemBuilder**
+
+Untuk menampilkan `ListView` pada praktikum ini digunakan `itemBuilder`. Data diambil dari definisi model yang telah dibuat sebelumnya. Untuk menunjukkan batas data satu dan berikutnya digunakan widget `Card`. Kode yang telah umum pada bagian ini tidak ditampilkan. Gambaran kode yang dibutuhkan dapat anda lihat sebagai berikut.
+
+**Langkah 7: Menambahkan aksi pada ListView**
+
+<p align = "center">
+    <img src = "img\prak5.gif" alt = "Output" width = "600"/>
+</p>

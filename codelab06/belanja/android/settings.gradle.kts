@@ -24,4 +24,3 @@ plugins {
 }
 
 include(":app")
-rootProject.name = "layout_flutter"
