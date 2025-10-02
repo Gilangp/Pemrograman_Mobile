@@ -96,7 +96,7 @@ https://docs.flutter.dev/codelabs/layout-basics
 Sebelum melanjutkan praktikum, buatlah sebuah project baru Flutter dengan nama **belanja** dan susunan folder seperti pada gambar berikut. Penyusunan ini dimaksudkan untuk mengorganisasi kode dan widget yang lebih mudah.
 
 <p align = "center">
-    <img src = "img\prak5_Langkah1.png" alt = "Output" width = "200"/>
+    <img src = "img\Prak5_Langkah1.png" alt = "Output" width = "200"/>
 </p>
 
 **Langkah 2: Mendefinisikan Route**
