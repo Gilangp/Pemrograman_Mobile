@@ -13,7 +13,7 @@ Buatlah sebuah project flutter baru dengan nama layout_flutter. Atau sesuaikan s
 Buka file `main.dart` lalu ganti dengan kode berikut. Isi nama dan NIM Anda di `text title`.
 
 <p align = "center">
-    <img src = "img\Prak1_L angkah2.png" alt = "Output" width = "600"/>
+    <img src = "img\Prak1_Langkah2.png" alt = "Output" width = "600"/>
 </p>
 
 **Langkah 3: Identifikasi layout diagram**
