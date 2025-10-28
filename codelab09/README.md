@@ -9,13 +9,13 @@
 ### Langkah 1: Buat Project Baru
 
 <p align = "center">
-    <img src = "img\prak1_Langkah1.png" alt = "Output" width = "150"/>
+    <img src = "img\prak1_langkah1.png" alt = "Output" width = "150"/>
 </p>
 
 ### Langkah 2: Tambah dependensi yang diperlukan
 
 <p align = "center">
-    <img src = "img\prak1_Langkah 2.png" alt = "Output" width = "500"/>
+    <img src = "img\prak1_langkah2.png" alt = "Output" width = "500"/>
 </p>
 
 ### Langkah 3: Ambil Sensor Kamera dari device
