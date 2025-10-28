@@ -9,13 +9,13 @@
 ### Langkah 1: Buat Project Baru
 
 <p align = "center">
-    <img src = "img\Prak1_Langkah1.png" alt = "Output" width = "150"/>
+    <img src = "img\prak1_Langkah1.png" alt = "Output" width = "150"/>
 </p>
 
 ### Langkah 2: Tambah dependensi yang diperlukan
 
 <p align = "center">
-    <img src = "img\Prak1_Langkah 2.png" alt = "Output" width = "500"/>
+    <img src = "img\prak1_Langkah 2.png" alt = "Output" width = "500"/>
 </p>
 
 ### Langkah 3: Ambil Sensor Kamera dari device
@@ -584,7 +584,7 @@ void main() {
 ## Hasil
 
 <p align = "center">
-    <img src = "img\filter carousel.gif" alt = "Output" width = "500"/>
+    <img src = "img\filter_carousel.gif" alt = "Output" width = "500"/>
 </p>
 
 ## 2. Gabungkan hasil praktikum 1 dengan hasil praktikum 2 sehingga setelah melakukan pengambilan foto, dapat dibuat filter carouselnya!
@@ -592,7 +592,7 @@ void main() {
 ## Hasil
 
 <p align = "center">
-    <img src = "img\Tugas Praktikum.gif" alt = "Output" width = "500"/>
+    <img src = "img\Tugas_Praktikum.gif" alt = "Output" width = "500"/>
 </p>
 
 ## 3. Jelaskan maksud void async pada praktikum 1?
