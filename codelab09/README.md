@@ -592,7 +592,7 @@ void main() {
 ## Hasilnya
 
 <p align = "center">
-    <img src = "img\tugas_praktikum.gif" alt = "Output" width = "500"/>
+    <img src = "img\tugas_prak.gif" alt = "Output" width = "500"/>
 </p>
 
 ## 3. Jelaskan maksud void async pada praktikum 1?
