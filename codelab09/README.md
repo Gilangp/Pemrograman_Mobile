@@ -589,7 +589,7 @@ void main() {
 
 ## 2. Gabungkan hasil praktikum 1 dengan hasil praktikum 2 sehingga setelah melakukan pengambilan foto, dapat dibuat filter carouselnya!
 
-## Hasil
+## Hasilnya
 
 <p align = "center">
     <img src = "img\tugas_praktikum.gif" alt = "Output" width = "500"/>
