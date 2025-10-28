@@ -9,7 +9,7 @@
 ### Langkah 1: Buat Project Baru
 
 <p align = "center">
-    <img src = "img\prak1_langkah1.png" alt = "Output" width = "150"/>
+    <img src = "img\prak1_langkah_1.png" alt = "Output" width = "150"/>
 </p>
 
 ### Langkah 2: Tambah dependensi yang diperlukan
@@ -592,7 +592,7 @@ void main() {
 ## Hasil
 
 <p align = "center">
-    <img src = "img\Tugas_Praktikum.gif" alt = "Output" width = "500"/>
+    <img src = "img\tugas_praktikum.gif" alt = "Output" width = "500"/>
 </p>
 
 ## 3. Jelaskan maksud void async pada praktikum 1?
