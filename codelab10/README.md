@@ -199,11 +199,26 @@ class _PlanScreenState extends State<PlanScreen> {
 
 ## 2. Jelaskan maksud dari langkah 4 pada praktikum tersebut! Mengapa dilakukan demikian?
 
+Jawab: Langkah itu dilakukan untuk menggabungkan seluruh model file dalam satu pintu masuk / satu access point. Dengan membuat file `data_layer.dart` dan menuliskan export, maka file tersebut menjadi “gerbang ekspor” dari semua model (plan.dart dan task.dart).
+
 ## 3. Mengapa perlu variabel plan di langkah 6 pada praktikum tersebut? Mengapa dibuat konstanta ?
+
+Jawab: karena variabel plan sebagai tempat penyimpanan state aplikasi, sedangkan penggunaan const pada inisialisasi awal bertujuan untuk efisiensi dan menjaga konsistensi nilai awal sebelum data dinamis dimasukkan oleh pengguna.
 
 ## 4. Lakukan capture hasil dari Langkah 9 berupa GIF, kemudian jelaskan apa yang telah Anda buat!
 
+<p align = "center">
+    <img src = "img\prak1.gif" alt = "Output" width = "300"/>
+</p>
+
+Jawab: tampilan daftar rencana tugas (plan) yang bisa ditambahkan menggunakan tombol tambah (+). Setiap task di dalam plan dapat diedit dan ditandai selesai. Struktur tersebut memisahkan Model (Plan) sebagai data dan View (PlanScreen) sebagai UI, jadi perubahan data otomatis tampil di layar melalui state.
+
 ## 5. Apa kegunaan method pada Langkah 11 dan 13 dalam lifecyle state ?
+
+Jawab:
+- Method `initState()` pada Langkah 11 digunakan untuk inisialisasi awal state, yaitu membuat objek ScrollController dan menambahkan listener agar keyboard menutup saat pengguna melakukan scroll. Method ini dijalankan sekali saja ketika widget pertama kali dibuat.
+
+- Method `dispose()` pada Langkah 13 digunakan untuk membersihkan resource sebelum widget dihapus dari memori, seperti menghentikan atau melepaskan ScrollController agar tidak menyebabkan kebocoran memori. Method ini dipanggil sekali saja saat widget dihapus dari tree.
 
 ## 6. Kumpulkan laporan praktikum Anda berupa link commit atau repository GitHub ke dosen yang telah disepakati !
 
@@ -391,9 +406,19 @@ Widget _buildList(Plan plan) {
 
 ## 3. Jelaskan mana yang dimaksud InheritedWidget pada langkah 1 tersebut! Mengapa yang digunakan InheritedNotifier?
 
+Jawab: Pada langkah 1, `PlanProvider` adalah turunan dari InheritedWidget yang digunakan untuk menyebarkan data Plan ke semua widget anak. `InheritedNotifier` digunakan karena menghubungkan `ValueNotifier<Plan>` dengan widget turunan, jadi setiap perubahan data akan otomatis membuat widget terkait rebuild tanpa perlu logika tambahan.
+
 ## 4. Jelaskan maksud dari method di langkah 3 pada praktikum tersebut! Mengapa dilakukan demikian?
 
+Jawab: `completedCount` dan `completenessMessage` digunakan untuk menghitung jumlah tugas yang sudah selesai dan menampilkan pesan progres seperti “3 out of 5 tasks”, ini agar status tugas dapat terhitung otomatis dari data model (Plan), sehingga pemisahan antara data (Model) dan UI (View) tetap terjaga.
+
 ## 5. Lakukan capture hasil dari Langkah 9 berupa GIF, kemudian jelaskan apa yang telah Anda buat!
+
+<p align = "center">
+    <img src = "img\prak2.gif" alt = "Output" width = "300"/>
+</p>
+
+Jawab: Tampilan daftar tugas (task list) yang bisa ditambahkan menggunakan tombol tambah (+) dan menampilkan pesan progres di bagian bawah seperti “x out of y tasks”. Tampilan tersebut menggunakan InheritedNotifier melalui PlanProvider untuk mengelola state, sehingga setiap perubahan pada data tugas bisa otomatis memperbarui tampilan tanpa perlu menyimpan state di dalam widget.
 
 ## 6. Kumpulkan laporan praktikum Anda berupa link commit atau repository GitHub ke dosen yang telah disepakati !
 
@@ -947,6 +972,14 @@ Widget _buildMasterPlans() {
     <img src = "img\img_soal_prak3.png" alt = "Output" width = "500"/>
 </p>
 
+Jawab: Diagram tersebut menggambarkan alur navigasi dan pengelolaan state pada aplikasi Master Plan. Pada layar awal (PlanCreatorScreen), pengguna bisa menambah serta melihat daftar rencana melalui TextField dan ListView. Ketika salah satu rencana dipilih, aplikasi berpindah ke layar detail (PlanScreen) menggunakan Navigator.push untuk menampilkan daftar tugas dan progres penyelesaiannya. Data dari kedua layar tetap tersinkron karena semua state dikelola oleh PlanProvider (InheritedWidget) yang ditempatkan di level atas aplikasi, yang dimana menerapkan konsep Lift State Up agar state dapat diakses lintas layar.
+
 ## 3. Lakukan capture hasil dari Langkah 14 berupa GIF, kemudian jelaskan apa yang telah Anda buat!
+
+<p align = "center">
+    <img src = "img\prak3.gif" alt = "Output" width = "500"/>
+</p>
+
+Jawab: Pada langkah tersebut, aplikasi Master Plan menggunakan manajemen state dengan InheritedNotifier (PlanProvider). Jadi pengguna menambah atau menyelesaikan tugas, data pada model akan otomatis diperbarui dan langsung tercermin pada tampilan aplikasi secara real-time tanpa perlu melakukan refresh manual.
 
 ## 4. Kumpulkan laporan praktikum Anda berupa link commit atau repository GitHub ke dosen yang telah disepakati !
