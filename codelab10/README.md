@@ -294,6 +294,7 @@ Widget _buildAddTaskButton(BuildContext context) {
 
 ### Langkah 6: Edit method _buildTaskTile
 
+```dart
 Widget _buildTaskTile(Task task, int index, BuildContext context) {
     ValueNotifier<Plan> planNotifier = PlanProvider.of(context);
     return ListTile(
@@ -339,6 +340,7 @@ Widget _buildTaskTile(Task task, int index, BuildContext context) {
       ),
     );
   }
+```
 
 ### Langkah 7: Edit _buildList
 
