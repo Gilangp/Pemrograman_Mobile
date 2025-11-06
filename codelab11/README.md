@@ -315,3 +315,85 @@ getNumber().then((value) {
 <p align = "center">
     <img src = "img\outputprak3_2.gif" alt = "Output" width = "500"/>
 </p>
+
+# Praktikum 4: Memanggil Future secara paralel
+
+Ketika Anda membutuhkan untuk menjalankan banyak Future secara bersamaan, ada sebuah class yang dapat Anda gunakan yaitu: `FutureGroup`.
+
+FutureGroup tersedia di package `async`, yang mana itu harus diimpor ke file dart Anda, seperti berikut.
+
+```dart
+import 'package:async/async.dart';
+```
+
+## Langkah 1: Buka file main.dart
+
+Tambahkan method ini ke dalam `class _FuturePageState`
+
+```dart
+Future returnFG() async {
+  FutureGroup<int> futureGroup = FutureGroup<int>();
+  futureGroup.add(returnOneAsync());
+  futureGroup.add(returnTwoAsync());
+  futureGroup.add(returnThreeAsync());
+  futureGroup.close();
+  final futures = await futureGroup.future;
+  int total = 0;
+  for (var num in futures) {
+    total += num;
+  }
+  setState(() {
+    result = total.toString();
+  });
+}
+```
+
+## Langkah 2: Edit onPressed()
+
+Anda bisa hapus atau comment kode sebelumnya, kemudian panggil method dari langkah 1 tersebut.
+
+```dart
+onPressed: () {
+  returnFG();
+}
+```
+
+## Langkah 3: Run
+
+Anda akan melihat hasilnya dalam 3 detik berupa angka 6 lebih cepat dibandingkan praktikum sebelumnya menunggu sampai 9 detik.
+
+**Soal 7**
+
+- Capture hasil praktikum Anda berupa GIF dan lampirkan di README. Lalu lakukan commit dengan pesan **"W11: Soal 7"**.
+
+<p align = "center">
+    <img src = "img\outputprak4_1.gif" alt = "Output" width = "500"/>
+</p>
+
+## Langkah 4: Ganti variabel futureGroup
+
+Anda dapat menggunakan FutureGroup dengan `Future.wait` seperti kode berikut.
+
+```dart
+final futures = Future.wait<int>([
+  returnOneAsync(),
+  returnTwoAsync(),
+  returnThreeAsync(),
+]);
+```
+
+**Soal 8**
+
+- Jelaskan maksud perbedaan kode langkah 1 dan 4!
+
+  Perbedaan antara langkah 1 dan langkah 4 adalah pada cara mengelola kumpulan Future.
+
+    - Pada langkah 1, digunakan `FutureGroup`dari package `async`, yang memberi fleksibilitas lebih, misalnya bisa menambahkan Future secara dinamis sebelum `close()`.
+
+    - Pada langkah 4, digunakan `Future.wait`, yaitu fitur bawaan Dart yang langsung menunggu beberapa Future sekaligus tanpa perlu `add()` atau `close()`.
+
+  Keduanya sama-sama menjalankan Future secara paralel, namun `FutureGroup` lebih cocok ketika jumlah Future tidak tetap atau dinamis, sedangkan `Future.wait` lebih sederhana dan efisien untuk daftar Future yang sudah pasti jumlahnya.
+
+<p align = "center">
+    <img src = "img\outputprak4_2.gif" alt = "Output" width = "500"/>
+</p>

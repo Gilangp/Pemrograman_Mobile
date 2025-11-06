@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
-
+import 'package:async/async.dart';
 
 void main() {
   runApp(const MyApp());
@@ -75,6 +75,41 @@ class _FuturePageState extends State<FuturePage> {
     });
   }
 
+  Future returnFG() async {
+    FutureGroup<int> futureGroup = FutureGroup<int>();
+    futureGroup.add(returnOneAsync());
+    futureGroup.add(returnTwoAsync());
+    futureGroup.add(returnThreeAsync());
+    futureGroup.close();
+
+    final futures = await futureGroup.future;
+    int total = 0;
+    for (var num in futures) {
+      total += num;
+    }
+    setState(() {
+      result = total.toString();
+    });
+  }
+
+  Future returnFW() async {
+    final futures = await Future.wait<int>([
+      returnOneAsync(),
+      returnTwoAsync(),
+      returnThreeAsync(),
+    ]);
+
+    int total = 0;
+    for (var num in futures) {
+      total += num;
+    }
+
+    setState(() {
+      result = total.toString();
+    });
+  }
+
+
   // Future<http.Response> getData() async {
   //   const authority = 'www.googleapis.com';
   //   const path = '/books/v1/volumes/OyB4llvAoXQC';
@@ -96,14 +131,8 @@ class _FuturePageState extends State<FuturePage> {
                     setState(() {
                       isLoading = true;
                     });
-                    getNumber().then((value) {
+                    returnFW().then((_) {
                       setState(() {
-                        result = value.toString();
-                        isLoading = false;
-                      });
-                    }).catchError((e) {
-                      setState(() {
-                        result = 'An error occurred';
                         isLoading = false;
                       });
                     });
