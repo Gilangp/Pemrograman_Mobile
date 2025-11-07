@@ -397,3 +397,522 @@ final futures = Future.wait<int>([
 <p align = "center">
     <img src = "img\outputprak4_2.gif" alt = "Output" width = "500"/>
 </p>
+
+# Praktikum 5: Menangani Respon Error pada Async Code
+
+## Langkah 1: Buka file main.dart
+
+Tambahkan method ini ke dalam `class _FuturePageState`
+
+```dart
+Future returnError() async {
+  await Future.delayed(const Duration (seconds: 2));
+  throw Exception('Something terrible happened!');
+}
+```
+
+## Langkah 2: ElevatedButton
+
+Ganti dengan kode berikut
+
+```dart
+returnError()
+    .then((value) {
+      setState(() {
+        result = 'Success';
+      });
+    }).catchError ((onError) {
+    setState(() {
+      result = onError.toString();
+    });
+  }).whenComplete(() = print('Complete'));
+```
+
+## Langkah 3: Run
+
+Lakukan run dan klik tombol **GO!** maka akan menghasilkan seperti gambar berikut.
+
+**Soal 9**
+- Capture hasil praktikum Anda berupa GIF dan lampirkan di README. Lalu lakukan commit dengan pesan "W11: Soal 9".
+
+<p align = "center">
+    <img src = "img\outputprak5_1.gif" alt = "Output" width = "500"/>
+</p>
+
+## Langkah 4: Tambah method handleError()
+
+Tambahkan kode ini di dalam `class _FutureStatePage`
+
+```dart
+Future handleError() async {
+  try {
+    await returnError();
+  }
+  catch (error) {
+    setState(() {
+      result = error.toString();
+    });
+  }
+  finally {
+    print('Complete');
+  }
+}
+```
+
+**Soal 10**
+- Panggil method `handleError()` tersebut di `ElevatedButton`, lalu run. Apa hasilnya? Jelaskan perbedaan kode langkah 1 dan 4!
+
+  Saat tombol Go! ditekan, muncul pesan:
+  > Exception: Something terrible happened!
+
+  dan di terminal tertulis:
+  <p align = "left">
+      <img src = "img\console.png" alt = "Output" width = "400"/>
+  </p>
+
+  Perbedaan langkah 1 dan 4 terletak pada gaya penanganan error. Langkah 1 menggunakan `then()`, `catchError()`, dan `whenComplete()`, sedangkan langkah 4 memakai `try`, `catch`, dan `finally`. Keduanya menghasilkan output yang sama, tetapi `try–catch–finally`lebih mudah dibaca dan menyerupai penulisan kode sinkron.
+
+<p align = "center">
+    <img src = "img\outputprak5_2.gif" alt = "Output" width = "500"/>
+</p>
+
+# Praktikum 6: Menggunakan Future dengan StatefulWidget
+
+## Langkah 1: install plugin geolocator
+
+Tambahkan plugin geolocator dengan mengetik perintah berikut di terminal.
+
+```dart
+flutter pub add geolocator
+```
+
+## Langkah 2: Tambah permission GPS
+
+Jika Anda menargetkan untuk platform **Android**, maka tambahkan baris kode berikut di file `android/app/src/main/androidmanifest.xml`
+
+```dart
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+```
+
+## Langkah 3: Buat file geolocation.dart
+
+Tambahkan file baru ini di folder lib project Anda.
+
+## Langkah 4: Buat StatefulWidget
+
+Buat `class LocationScreen` di dalam file `geolocation.dart`
+
+## Langkah 5: Isi kode geolocation.dart
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+
+class LocationScreen extends StatefulWidget {
+  const LocationScreen({super.key});
+
+  @override
+  State<LocationScreen> createState() => _LocationScreenState();
+}
+
+class _LocationScreenState extends State<LocationScreen> {
+  String myPosition = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getPosition().then((Position myPos) {
+      myPosition =
+          'latitude: ${myPos.latitude.toString()} - Longitude: ${myPos.longitude.toString()}';
+      setState(() {
+        myPosition = myPosition;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Current Location - Gilanp')),
+      body: Center(child: Text(myPosition)),
+    );
+  }
+
+  Future<Position> getPosition() async {
+    await Geolocator.requestPermission();
+    await Geolocator.isLocationServiceEnabled();
+    Position? position = await Geolocator.getCurrentPosition();
+    return position;
+  }
+}
+```
+
+**Soal 11**
+
+- Tambahkan **nama panggilan Anda** pada tiap properti `title` sebagai identitas pekerjaan Anda.
+
+## Langkah 6: Edit main.dart
+
+Panggil screen baru tersebut di file main Anda seperti berikut.
+
+```dart
+home: LocationScreen(),
+```
+
+## Langkah 7: Run
+
+Run project Anda di **device** atau **emulator (bukan browser)**, maka akan tampil seperti berikut ini.
+
+## Langkah 8: Tambahkan animasi loading
+
+Tambahkan widget loading seperti kode berikut. Lalu hot restart, perhatikan perubahannya.
+
+```dart
+@override
+Widget build (BuildContext context) {
+  final myWidget = myPosition ==
+    ? const Circular Progress Indicator()
+    : const Text(myPosition);;
+
+  return Scaffold(
+    appBar: AppBar(title: Text('Current Location')),
+    body: Center(child:myWidget),
+  );
+}
+```
+
+**Soal 12**
+- Jika Anda tidak melihat animasi loading tampil, kemungkinan itu berjalan sangat cepat. Tambahkan delay pada method `getPosition()` dengan kode `await Future.delayed(const Duration(seconds: 3));`
+
+- Apakah Anda mendapatkan koordinat GPS ketika run di browser? Mengapa demikian?
+
+- Capture hasil praktikum Anda berupa GIF dan lampirkan di README. Lalu lakukan commit dengan pesan **"W11: Soal 12"**.
+
+# Praktikum 7: Manajemen Future dengan FutureBuilder
+
+## Langkah 1: Modifikasi method getPosition()
+
+Buka file `geolocation.dart` kemudian ganti isi method dengan kode ini.
+
+```dart
+Future<Position> getPosition() async {
+  await Geolocator.isLocationServiceEnabled();
+  await Future.delayed(const Duration(seconds: 3));
+  Position position await Geolocator. getCurrentPosition ();
+  return position; }
+```
+
+## Langkah 2: Tambah variabel
+
+Tambah variabel ini di `class _LocationScreenState`
+
+```dart
+Futere<Position>? position;
+```
+
+## Langkah 3: Tambah initState()
+
+Tambah method ini dan set variabel `position`
+
+```dart
+@override
+  void initState() {
+    super.initState();
+    position = getPosition();
+  }
+```
+
+## Langkah 4: Edit method build()
+
+Ketik kode berikut dan sesuaikan. Kode lama bisa Anda comment atau hapus.
+
+```dart
+@override
+Widget build (BuildContext context) {
+  return Scaffold(
+    appBar: AppBar (title: Text('Current Location')),
+    body: Center (child: FutureBuilder(
+      future: position,
+      builder: (BuildContext context, AsyncSnapshot<Position>snapshot) {
+        if (snapshot.connectionState ==
+          ConnectionState.waiting) {
+            return const CircularProgress Indicator();
+          }
+          else if (snapshot.connectionState ==
+            ConnectionState.done) {
+              return Text(snapshot.data.toString());
+          }
+          else {
+            return const Text('');
+          }
+        },
+      ),
+  ));
+}
+```
+
+**Soal 13**
+- Apakah ada perbedaan UI dengan praktikum sebelumnya? Mengapa demikian?
+
+- Capture hasil praktikum Anda berupa GIF dan lampirkan di README. Lalu lakukan commit dengan pesan **"W11: Soal 13"**.
+
+- Seperti yang Anda lihat, menggunakan FutureBuilder lebih efisien, clean, dan reactive dengan Future bersama UI.
+
+## Langkah 1: install plugin geolocator
+
+Tambahkan kode berikut untuk menangani ketika terjadi error. Kemudian hot restart.
+
+```dart
+else if (snapshot.connectionState == ConnectionState.done) {
+  if (snapshot.hasError) {
+     return Text('Something terrible happened!');
+  }
+  return Text(snapshot.data.toString());
+}
+```
+
+**Soal 14**
+
+- Apakah ada perbedaan UI dengan langkah sebelumnya? Mengapa demikian?
+
+- Capture hasil praktikum Anda berupa GIF dan lampirkan di README. Lalu lakukan commit dengan pesan **"W11: Soal 14"**.
+
+# Praktikum 8: Navigation route dengan Future Function
+
+## Langkah 1: Buat file baru navigation_first.dart
+
+Buatlah file baru ini di project lib Anda.
+
+## Langkah 2: Isi kode navigation_first.dart
+
+```dart
+import 'package:books/navigation_second.dart';
+import 'package:flutter/material.dart';
+
+class NavigationFirst extends StatefulWidget {
+  const NavigationFirst({super.key});
+
+  @override
+  State<NavigationFirst> createState() => _NavigationFirstState();
+}
+
+class _NavigationFirstState extends State<NavigationFirst> {
+  Color color = Colors.blue.shade700;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: color,
+      appBar: AppBar(title: const Text('Navigation First Screen - Gilangp')),
+      body: Center(
+        child: ElevatedButton(
+          child: const Text('Change Color'),
+          onPressed: () {
+            _navigateAndGetColor(context);
+          },
+        ),
+      ),
+    );
+  }
+}
+```
+
+**Soal 15**
+
+- Tambahkan nama panggilan Anda pada tiap properti `title` sebagai identitas pekerjaan Anda.
+
+- Silakan ganti dengan warna tema favorit Anda.
+
+## Langkah 3: Tambah method di class _NavigationFirstState
+
+Tambahkan method ini.
+
+```dart
+Future _navigateAndGetColor(BuildContext context) async {
+   color = await Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const NavigationSecond()),) ?? Colors.blue;
+   setState(() {});
+   });
+}
+```
+
+## Langkah 4: Buat file baru navigation_second.dart
+
+Buat file baru ini di project lib Anda. Silakan jika ingin mengelompokkan view menjadi satu folder dan sesuaikan impor yang dibutuhkan.
+
+## Langkah 5: Buat class NavigationSecond dengan StatefulWidget
+
+```dart
+import 'package:flutter/material.dart';
+
+class NavigationSecond extends StatefulWidget {
+  const NavigationSecond({super.key});
+
+  @override
+  State<NavigationSecond> createState() => _NavigationSecondState();
+}
+
+class _NavigationSecondState extends State<NavigationSecond> {
+  @override
+  Widget build(BuildContext context) {
+    Color color;
+    return Scaffold(
+      appBar: AppBar(title: const Text('Navigation Second Screen')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              child: const Text('Red'),
+              onPressed: () {
+                color = Colors.red.shade200;
+                Navigator.pop(context, color);
+              },
+            ),
+            ElevatedButton(
+              child: const Text('Green'),
+              onPressed: () {
+                color = Colors.green.shade200;
+                Navigator.pop(context, color);
+              },
+            ),
+            ElevatedButton(
+              child: const Text('Blue'),
+              onPressed: () {
+                color = Colors.blue.shade200;
+                Navigator.pop(context, color);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+## Langkah 6: Edit main.dart
+
+Lakukan edit properti home.
+
+```dart
+home: const NavigationFirst(),
+```
+
+## Langkah 8: Run
+
+Lakukan run, jika terjadi error silakan diperbaiki.
+
+**Soal 16**
+
+- Cobalah klik setiap button, apa yang terjadi ? Mengapa demikian ?
+
+- Gantilah 3 warna pada langkah 5 dengan warna favorit Anda!
+
+- Capture hasil praktikum Anda berupa GIF dan lampirkan di README. Lalu lakukan commit dengan pesan **"W11: Soal 16"**.
+
+# Praktikum 9: Memanfaatkan async/await dengan Widget Dialog
+
+## Langkah 1: Buat file baru navigation_dialog.dart
+
+Buat file dart baru di folder lib project Anda.
+
+## Langkah 2: Isi kode navigation_dialog.dart
+
+```dart
+import 'package:flutter/material.dart';
+
+class NavigationDialogScreen extends StatefulWidget {
+  const NavigationDialogScreen({super.key});
+
+  @override
+  State<NavigationDialogScreen> createState() => _NavigationDialogScreenState();
+}
+
+class _NavigationDialogScreenState extends State<NavigationDialogScreen> {
+  Color color = Colors.blue.shade700;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: color,
+      appBar: AppBar(title: const Text('Navigation Dialog Screen - Gilangp')),
+      body: Center(
+        child: ElevatedButton(
+          child: const Text('Change Color'),
+          onPressed: () {},
+        ),
+      ),
+    );
+  }
+}
+```
+
+## Langkah 3: Tambah method async
+
+```dart
+showColorDialog(BuildContext context) async {
+    await showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: const Text('Very important question'),
+          content: const Text('Please choose a color'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Red'),
+              onPressed: () {
+                color = Colors.red.shade200;
+                Navigator.pop(context, color);
+              },
+            ),
+            TextButton(
+              child: const Text('Green'),
+              onPressed: () {
+                color = Colors.green.shade200;
+                Navigator.pop(context, color);
+              },
+            ),
+            TextButton(
+              child: const Text('Blue'),
+              onPressed: () {
+                color = Colors.blue.shade200;
+                Navigator.pop(context, color);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  ```
+
+## Langkah 4: Panggil method di ElevatedButton
+
+```dart
+onPressed: () {
+  _showColorDialog(context);
+}),
+```
+
+## Langkah 5: Edit main.dart
+
+Ubah properti home
+
+```dart
+home: const NavigationDialog(),
+```
+
+## Langkah 6: Run
+
+Coba ganti warna background dengan widget dialog tersebut. Jika terjadi error, silakan diperbaiki. Jika berhasil, akan tampil seperti gambar berikut.
+
+**Soal 17**
+
+- Cobalah klik setiap button, apa yang terjadi ? Mengapa demikian ?
+
+- Gantilah 3 warna pada langkah 3 dengan warna favorit Anda!
+
+- Capture hasil praktikum Anda berupa GIF dan lampirkan di README. Lalu lakukan commit dengan pesan **"W11: Soal 17"**.

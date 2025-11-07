@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'package:async/async.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
@@ -109,13 +109,22 @@ class _FuturePageState extends State<FuturePage> {
     });
   }
 
+  Future returnError() async {
+    await Future.delayed(const Duration(seconds: 2));
+    throw Exception('Something terrible happened!');
+  }
 
-  // Future<http.Response> getData() async {
-  //   const authority = 'www.googleapis.com';
-  //   const path = '/books/v1/volumes/OyB4llvAoXQC';
-  //   Uri url = Uri.https(authority, path);
-  //   return http.get(url);
-  // }
+  Future handleError() async {
+    try {
+      await returnError();
+    } catch (error) {
+      setState(() {
+        result = error.toString();
+      });
+    } finally {
+      print('Complete');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,38 +135,26 @@ class _FuturePageState extends State<FuturePage> {
           children: [
             const Spacer(),
             ElevatedButton(
-              child: Text('Go!'),
-                  onPressed: () {
-                    setState(() {
-                      isLoading = true;
-                    });
-                    returnFW().then((_) {
-                      setState(() {
-                        isLoading = false;
-                      });
-                    });
-                  },
-              // onPressed: () {
-              //   setState(() {
-              //     isLoading = true;
-              //   });
+              child: const Text('Go!'),
+              onPressed: () {
+                setState(() {
+                  isLoading = true;
+                });
 
-              //   getData()
-              //       .then((value) {
-              //         result = value.body.toString().substring(0, 450);
-              //         isLoading = false;
-              //         setState(() {});
-              //       })
-              //       .catchError((_) {
-              //         result = 'An error occurred';
-              //         isLoading = false;
-              //         setState(() {});
-              //       });
-              // },
+                handleError().whenComplete(() {
+                  setState(() {
+                    isLoading = false;
+                  });
+                });
+              },
             ),
 
             const Spacer(),
-            Text(result),
+            Text(
+              result,
+              style: const TextStyle(fontSize: 18, color: Colors.red),
+              textAlign: TextAlign.center,
+            ),
             const Spacer(),
             if (isLoading) const CircularProgressIndicator(),
             const Spacer(),
