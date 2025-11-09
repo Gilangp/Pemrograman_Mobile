@@ -166,7 +166,7 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'package:books/navigation_first.dart';
+import 'package:books/navigation_dialog.dart';
 
 void main() {
   runApp(const MyApp());
@@ -183,7 +183,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const NavigationFirst(),
+      // home: const NavigationFirst(),
+      home: const NavigationDialogScreen(),
     );
   }
 }

@@ -956,6 +956,13 @@ Coba ganti warna background dengan widget dialog tersebut. Jika terjadi error, s
 
 - Cobalah klik setiap button, apa yang terjadi ? Mengapa demikian ?
 
+  Ketika setiap button diklik, background berubah sesuai warna yang dipilih, ini terjadi karena method _showColorDialog() bersifat async dan menunggu hasil dari showDialog().
+  Setelah dialog ditutup dengan Navigator.pop(context, color), nilai warna dikembalikan, lalu dipanggil setState() untuk memperbarui tampilan UI secara reaktif.
+
 - Gantilah 3 warna pada langkah 3 dengan warna favorit Anda!
 
 - Capture hasil praktikum Anda berupa GIF dan lampirkan di README. Lalu lakukan commit dengan pesan **"W11: Soal 17"**.
+
+<p align="center">
+  <img src="img/outputprak9.gif" alt="Output Soal 15" width="400"/>
+</p>
