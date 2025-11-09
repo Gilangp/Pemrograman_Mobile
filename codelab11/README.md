@@ -844,9 +844,16 @@ Lakukan run, jika terjadi error silakan diperbaiki.
 
 - Cobalah klik setiap button, apa yang terjadi ? Mengapa demikian ?
 
+  Ketika saya menekan salah satu tombol warna di halaman kedua (abu-abu, biru, atau hitam), aplikasi mengembalikan nilai warna tersebut ke halaman pertama, dan warna background halaman pertama langsung berubah sesuai pilihan.
+  Hal ini terjadi karena method _navigateAndGetColor() menggunakan await Navigator.push() untuk menunggu hasil Future dari halaman kedua (Navigator.pop(context, color)), lalu menjalankan setState() agar tampilan diperbarui.
+
 - Gantilah 3 warna pada langkah 5 dengan warna favorit Anda!
 
 - Capture hasil praktikum Anda berupa GIF dan lampirkan di README. Lalu lakukan commit dengan pesan **"W11: Soal 16"**.
+
+<p align="center">
+  <img src="img/outputprak8.gif" alt="Output Soal 15" width="400"/>
+</p>
 
 # Praktikum 9: Memanfaatkan async/await dengan Widget Dialog
 

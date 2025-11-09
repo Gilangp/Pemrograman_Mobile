@@ -166,7 +166,7 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'geolocation.dart';
+import 'package:books/navigation_first.dart';
 
 void main() {
   runApp(const MyApp());
@@ -181,8 +181,9 @@ class MyApp extends StatelessWidget {
       title: 'Praktikum Gilangp',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const LocationScreen(),
+      home: const NavigationFirst(),
     );
   }
 }
