@@ -675,11 +675,18 @@ Widget build (BuildContext context) {
 **Soal 13**
 - Apakah ada perbedaan UI dengan praktikum sebelumnya? Mengapa demikian?
 
+  Tidak ada perbedaan tampilan (UI) yang signifikan dibanding praktikum sebelumnya. Perbedaannya hanya pada cara pengelolaan Future di kode. 
+  Jika sebelumnya menggunakan setState() untuk memperbarui tampilan setelah data Future selesai diambil, sekarang menggunakan FutureBuilder yang secara otomatis menyesuaikan tampilan berdasarkan status Future (waiting, done, atau error). Meskipun hasil akhirnya sama, kode dengan FutureBuilder lebih efisien, bersih, dan reaktif terhadap perubahan data.
+
 - Capture hasil praktikum Anda berupa GIF dan lampirkan di README. Lalu lakukan commit dengan pesan **"W11: Soal 13"**.
+
+<p align="center">
+  <img src="img/outputprak7_1.gif" alt="Output Soal 13" width="400"/>
+</p>
 
 - Seperti yang Anda lihat, menggunakan FutureBuilder lebih efisien, clean, dan reactive dengan Future bersama UI.
 
-## Langkah 1: install plugin geolocator
+## Langkah 5: Tambah handling error
 
 Tambahkan kode berikut untuk menangani ketika terjadi error. Kemudian hot restart.
 
@@ -696,7 +703,16 @@ else if (snapshot.connectionState == ConnectionState.done) {
 
 - Apakah ada perbedaan UI dengan langkah sebelumnya? Mengapa demikian?
 
+  Tidak ada perubahan besar pada tampilan UI, namun sekarang aplikasi menangani kondisi error dengan lebih baik.
+  Jika terjadi kesalahan seperti izin lokasi ditolak, aplikasi akan menampilkan pesan "Something terrible happened!".
+  Perbedaan utamanya bukan pada tampilan, tetapi pada penanganan error yang lebih aman dan informatif.
+
 - Capture hasil praktikum Anda berupa GIF dan lampirkan di README. Lalu lakukan commit dengan pesan **"W11: Soal 14"**.
+
+<p align="center">
+  <img src="img/outputprak7_2.gif" alt="Output Soal 14" width="400"/>
+</p>
+
 
 # Praktikum 8: Navigation route dengan Future Function
 

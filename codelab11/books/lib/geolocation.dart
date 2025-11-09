@@ -9,41 +9,42 @@ class LocationScreen extends StatefulWidget {
 }
 
 class _LocationScreenState extends State<LocationScreen> {
-  String myPosition = "";
+  Future<Position>? position;
 
   @override
   void initState() {
     super.initState();
-    getPosition().then((Position myPos) {
-      myPosition =
-          'Latitude: ${myPos.latitude.toString()} - Longitude: ${myPos.longitude.toString()}';
-      setState(() {
-        myPosition = myPosition;
-      });
-    });
+    position = getPosition();
+  }
+
+  Future<Position> getPosition() async {
+    await Geolocator.isLocationServiceEnabled();
+    await Future.delayed(const Duration(seconds: 3));
+    Position position = await Geolocator.getCurrentPosition();
+    return position;
   }
 
   @override
   Widget build(BuildContext context) {
-    final myWidget = myPosition == ""
-        ? const CircularProgressIndicator()
-        : Text(
-            myPosition,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 16),
-          );
-
     return Scaffold(
       appBar: AppBar(title: const Text('Current Location - Gilangp')),
-      body: Center(child: myWidget),
+      body: Center(
+        child: FutureBuilder<Position>(
+          future: position,
+          builder: (BuildContext context, AsyncSnapshot<Position> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            } else if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasError) {
+                return const Text('Something terrible happened!');
+              }
+              return Text(snapshot.data.toString());
+            } else {
+              return const Text('');
+            }
+          },
+        ),
+      ),
     );
-  }
-
-  Future<Position> getPosition() async {
-    await Future.delayed(const Duration(seconds: 3));
-    await Geolocator.requestPermission();
-    await Geolocator.isLocationServiceEnabled();
-    Position position = await Geolocator.getCurrentPosition();
-    return position;
   }
 }
