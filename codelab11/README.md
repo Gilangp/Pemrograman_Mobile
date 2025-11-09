@@ -524,7 +524,7 @@ class _LocationScreenState extends State<LocationScreen> {
     super.initState();
     getPosition().then((Position myPos) {
       myPosition =
-          'latitude: ${myPos.latitude.toString()} - Longitude: ${myPos.longitude.toString()}';
+          'Latitude: ${myPos.latitude.toString()} - Longitude: ${myPos.longitude.toString()}';
       setState(() {
         myPosition = myPosition;
       });
@@ -534,7 +534,7 @@ class _LocationScreenState extends State<LocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Current Location - Gilanp')),
+      appBar: AppBar(title: const Text('Current Location - Gilangp')),
       body: Center(child: Text(myPosition)),
     );
   }
@@ -542,7 +542,7 @@ class _LocationScreenState extends State<LocationScreen> {
   Future<Position> getPosition() async {
     await Geolocator.requestPermission();
     await Geolocator.isLocationServiceEnabled();
-    Position? position = await Geolocator.getCurrentPosition();
+    Position position = await Geolocator.getCurrentPosition();
     return position;
   }
 }
@@ -563,6 +563,10 @@ home: LocationScreen(),
 ## Langkah 7: Run
 
 Run project Anda di **device** atau **emulator (bukan browser)**, maka akan tampil seperti berikut ini.
+
+<p align = "center">
+    <img src = "img\outputprak6_1.gif" alt = "Output" width = "400"/>
+</p>
 
 ## Langkah 8: Tambahkan animasi loading
 
@@ -585,9 +589,25 @@ Widget build (BuildContext context) {
 **Soal 12**
 - Jika Anda tidak melihat animasi loading tampil, kemungkinan itu berjalan sangat cepat. Tambahkan delay pada method `getPosition()` dengan kode `await Future.delayed(const Duration(seconds: 3));`
 
+```dart
+Future<Position> getPosition() async {
+    await Future.delayed(const Duration(seconds: 3));
+    await Geolocator.requestPermission();
+    await Geolocator.isLocationServiceEnabled();
+    Position position = await Geolocator.getCurrentPosition();
+    return position;
+  }
+  ```
+
 - Apakah Anda mendapatkan koordinat GPS ketika run di browser? Mengapa demikian?
 
+  Ya, saya mendapatkan koordinat GPS ketika run di browser. Karena browser (Google Chrome) memiliki Web Geolocation API yang memungkinkan akses lokasi pengguna jika izin diberikan. Package geolocator pada Flutter Web menggunakan API tersebut, sehingga tetap dapat menampilkan koordinat lokasi tanpa perlu emulator atau perangkat fisik Android.
+
 - Capture hasil praktikum Anda berupa GIF dan lampirkan di README. Lalu lakukan commit dengan pesan **"W11: Soal 12"**.
+
+<p align = "center">
+    <img src = "img\outputprak6_2.gif" alt = "Output" width = "500"/>
+</p>
 
 # Praktikum 7: Manajemen Future dengan FutureBuilder
 
