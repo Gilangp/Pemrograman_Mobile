@@ -736,3 +736,138 @@ Widget build(BuildContext context) {
 - Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
 
 - Lalu lakukan commit dengan pesan **"W12: Jawaban Soal 10,11"**.
+
+# Praktikum 6: StreamBuilder
+
+## Langkah 1: Buat Project Baru
+
+Buatlah sebuah project flutter baru dengan nama **streambuilder_nama** (beri nama panggilan Anda) di folder week-12/src/ repository GitHub Anda.
+
+## Langkah 2: Buat file baru stream.dart
+
+```dart
+class NumberStream {}
+```
+
+## Langkah 3: Tetap di file stream.dart
+
+```dart
+import 'dart:math';
+
+class NumberStream {
+  Stream<int> getNumbers() async* {
+    yield* Stream.periodic(const Duration(seconds: 1), (int t) {
+      Random random = Random();
+      int myNum = random.nextInt(10);
+      return myNum;
+    });
+  }
+}
+```
+
+## Langkah 4: Edit main.dart
+
+```dart
+import 'package:flutter/material.dart';
+import 'stream.dart';
+import 'dart:async';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Stream',
+      theme: ThemeData(
+        primarySwatch: Colors.deepPurple,
+      ),
+      home: const StreamHomePage(),
+    );
+  }
+}
+
+class StreamHomePage extends StatefulWidget {
+  const StreamHomePage({super.key});
+
+  @override
+  State<StreamHomePage> createState() => _StreamHomePageState();
+}
+
+class _StreamHomePageState extends State<StreamHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Stream'),
+      ),
+      body: Container(),
+    );
+  }
+}
+```
+
+## Langkah 5: Tambah variabel
+
+```dart
+late Stream<int> numberStream;
+```
+
+## Langkah 6: Edit initState()
+
+```dart
+@override
+void initState() {
+  numberStream = NumberStream().getNumbers();
+  super.initState();
+}
+```
+
+## Langkah 7: Edit method build()
+
+```dart
+body: StreamBuilder(
+  stream: numberStream,
+  initialData: 0,
+  builder: (context, snapshot) {
+    if (snapshot.hasError) {
+      print('Error!');
+    }
+    if (snapshot.hasData) {
+      return Center(
+        child: Text(
+          snapshot.data.toString(),
+          style: const TextStyle(fontSize: 96),
+        ),
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
+  },
+),
+```
+
+## Langkah 8: Run
+
+<p align = "center">
+    <img src = "img\prak6.gif" alt = "Output" width = "400"/>
+</p>
+
+**Soal 12**
+
+- Jelaskan maksud kode pada langkah 3 dan 7 !
+
+  - Langkah 3 
+    Membuat stream yang secara periodik (setiap 1 detik) menghasilkan angka acak dari 0 sampai 9 menggunakan Stream.periodic() dan yield*.
+
+  - Langkah 7
+    Menggunakan StreamBuilder untuk menampilkan data dari stream ke layar secara reaktif.
+    Setiap kali ada data baru di stream, widget StreamBuilder akan memanggil ulang fungsi builder dan memperbarui tampilan teks dengan angka terbaru.
+
+- Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+
+- Lalu lakukan commit dengan pesan **"W12: Jawaban Soal 12"**.
