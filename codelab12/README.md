@@ -419,3 +419,68 @@ void addRandomNumber() {
 - Kembalikan kode seperti semula pada Langkah 15, comment `addError()` agar Anda dapat melanjutkan ke praktikum 3 berikutnya.
 
 - Lalu lakukan commit dengan pesan **"W12: Jawaban Soal 7"**.
+
+# Praktikum 3: Injeksi data ke streams
+
+## Langkah 1: Buka main.dart
+
+```dart
+late StreamTransformer transformer;
+```
+
+## Langkah 2: Tambahkan kode ini di initState
+
+```dart
+transformer = StreamTransformer<int, int>.fromHandlers(
+  handleData: (value, sink) {
+    sink.add(value * 10);
+  },
+  handleError: (error, trace, sink) {
+    sink.add(-1);
+  },
+  handleDone: (sink) => sink.close(),
+);
+```
+
+## Langkah 3: Tetap di initState
+
+```dart
+stream.transform(transformer).listen((event) {
+  setState(() {
+    lastNumber = event;
+  });
+}).onError((error) {
+  setState(() {
+    lastNumber = -1;
+  });
+});
+super.initState();
+```
+
+## Langkah 4: Run
+
+<p align = "center">
+    <img src = "img\prak3.gif" alt = "Output" width = "400"/>
+</p>
+
+**Soal 8**
+
+- Jelaskan maksud kode langkah 1-3 tersebut!
+
+  - Langkah 1 – StreamTransformer digunakan untuk memodifikasi data yang mengalir di dalam stream sebelum diterima UI.
+  Dengan deklarasi StreamTransformer<int, int>, kita mengubah stream yang mengirimkan angka integer.
+
+  - Langkah 2 – Dalam fromHandlers, terdapat tiga handler:
+
+      - handleData: menerima data asli dari stream, lalu mengalikan setiap nilai dengan 10 sebelum diteruskan ke sink.
+
+      - handleError: jika stream mengirim error, nilai -1 akan dikirim sebagai penanda error.
+
+      - handleDone: menutup sink ketika stream selesai.
+
+  - Langkah 3 – Stream yang sudah ditransformasi (stream.transform(transformer)) di-listen, sehingga UI akan menerima data yang sudah dimodifikasi (misalnya 3 → 30).
+  Jika terjadi error, lastNumber akan diubah menjadi -1.
+
+- Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+
+-- Lalu lakukan commit dengan pesan **"W12: Jawaban Soal 8"**.
