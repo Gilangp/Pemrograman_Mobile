@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'stream.dart';
 
@@ -11,10 +13,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Stream Gilangp',
-      theme: ThemeData(
-        primarySwatch: Colors.grey,
-      ),
+      title: 'Stream Controller Gilang',
+      theme: ThemeData(primarySwatch: Colors.grey),
       home: const StreamHomePage(),
     );
   }
@@ -28,54 +28,73 @@ class StreamHomePage extends StatefulWidget {
 }
 
 class _StreamHomePageState extends State<StreamHomePage> {
-  Color bgColor = Colors.blueGrey;
-  late ColorStream colorStream;
-
-  // void changeColor() async {
-  //   await for (var eventColor in colorStream.getColors()) {
-  //     setState(() {
-  //       bgColor = eventColor;
-  //     });
-  //   }
-  // }
-
-  void changeColor() {
-    colorStream.getColors().listen((eventColor) {
-      setState(() {
-        bgColor = eventColor;
-      });
-    });
-  }
+  int lastNumber = 0;
+  late StreamController numberStreamController;
+  late NumberStream numberStream;
 
   @override
   void initState() {
+    numberStream = NumberStream();
+    numberStreamController = numberStream.controller;
+
+    Stream stream = numberStreamController.stream;
+
+    stream.listen((event) {
+      setState(() {
+        lastNumber = event;
+      });
+    }).onError((error) {
+      setState(() {
+        lastNumber = -1;
+      });
+    });
+
     super.initState();
-    colorStream = ColorStream();
-    changeColor();
+  }
+
+  void addRandomNumber() {
+    Random random = Random();
+    int myNum = random.nextInt(10);
+    numberStream.addNumberToSink(myNum);
+
+    // Untuk uji error:
+    // numberStream.addError();
+  }
+
+  @override
+  void dispose() {
+    numberStreamController.close();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Stream Gilang',
-          style: TextStyle(color: Colors.white),
+        title: const Text('Stream Controller Example'),
+        titleTextStyle: const TextStyle(
+          fontSize: 20,
+          color: Colors.white
         ),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.blue,
+
       ),
-      body: Container(
-        decoration: BoxDecoration(color: bgColor),
-        // child: const Center(
-        //   child: Text(
-        //     'Background berubah setiap detik',
-        //     style: TextStyle(
-        //       fontSize: 20,
-        //       fontWeight: FontWeight.bold,
-        //       color: Colors.white,
-        //     ),
-        //   ),
-        // ),
+      body: SizedBox(
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              lastNumber.toString(),
+              style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+            ),
+            ElevatedButton(
+              onPressed: () => addRandomNumber(),
+              child: const Text('New Random Number'),
+            ),
+          ],
+        ),
       ),
     );
   }
