@@ -871,3 +871,179 @@ body: StreamBuilder(
 - Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
 
 - Lalu lakukan commit dengan pesan **"W12: Jawaban Soal 12"**.
+
+# Praktikum 7: BLoC Pattern
+
+## Langkah 1: Buat Project Baru
+
+Buatlah sebuah project flutter baru dengan nama **bloc_random_nama** (beri nama panggilan Anda) di folder week-12/src/ repository GitHub Anda. Lalu buat file baru di folder lib dengan nama random_bloc.dart
+
+## Langkah 2: Isi kode random_bloc.dart
+
+```dart
+import 'dart:async';
+import 'dart:math';
+```
+
+## Langkah 3: Buat class RandomNumberBloc()
+
+```dart
+class RandomNumberBloc {}
+```
+
+## Langkah 4: Buat variabel StreamController
+
+```dart
+class RandomNumberBloc {
+  // StreamController untuk input event
+  final _generateRandomController = StreamController<void>();
+
+  // StreamController untuk output data
+  final _randomNumberController = StreamController<int>();
+
+  // Input Sink (event)
+  Sink<void> get generateRandom => _generateRandomController.sink;
+
+  // Output Stream (data)
+  Stream<int> get randomNumber => _randomNumberController.stream;
+}
+```
+
+## Langkah 5: Buat constructor
+
+```dart
+RandomNumberBloc() {
+  _generateRandomController.stream.listen((_) {
+    final random = Random().nextInt(10); // angka acak 0–9
+    _randomNumberController.sink.add(random);
+  });
+}
+```
+
+## Langkah 6: Buat method dispose()
+
+```dart
+void dispose() {
+  _generateRandomController.close();
+  _randomNumberController.close();
+}
+```
+
+## Langkah 7: Edit main.dart
+
+```dart
+import 'package:flutter/material.dart';
+import 'random_screen.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const RandomScreen(),
+    );
+  }
+}
+```
+
+## Langkah 8: Buat file baru random_screen.dart
+
+```dart
+random_screen.dart
+```
+
+## Langkah 9: Lakukan impor material dan random_bloc.dart
+
+```dart
+import 'package:flutter/material.dart';
+import 'random_bloc.dart';
+```
+
+## Langkah 10: Buat StatefulWidget RandomScreen
+
+```dart
+class RandomScreen extends StatefulWidget {
+  const RandomScreen({super.key});
+
+  @override
+  State<RandomScreen> createState() => _RandomScreenState();
+}
+```
+
+## Langkah 11: Buat variabel
+
+```dart
+class _RandomScreenState extends State<RandomScreen> {
+  final _bloc = RandomNumberBloc();
+```
+
+## Langkah 12: Buat method dispose()
+
+```dart
+  @override
+  void dispose() {
+    _bloc.dispose();
+    super.dispose();
+  }
+```
+
+## Langkah 13: Edit method build()
+
+```dart
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Random Number')),
+      body: Center(
+        child: StreamBuilder<int>(
+          stream: _bloc.randomNumber,
+          initialData: 0,
+          builder: (context, snapshot) {
+            return Text(
+              'Random Number: ${snapshot.data}',
+              style: const TextStyle(fontSize: 24),
+            );
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _bloc.generateRandom.add(null),
+        child: const Icon(Icons.refresh),
+      ),
+    );
+  }
+}
+```
+
+Run aplikasi, maka Anda akan melihat angka acak antara angka 0 sampai 9 setiap kali menekan tombol `FloactingActionButton`.
+
+<p align = "center">
+    <img src = "img\prak7.gif" alt = "Output" width = "400"/>
+</p>
+
+**Soal 13**
+
+- Jelaskan maksud praktikum ini ! Dimanakah letak konsep pola BLoC-nya ?
+
+  Praktikum ini untuk menunjukkan bagaimana logika bisnis (proses menghasilkan angka acak) dipisahkan dari tampilan UI menggunakan pola BLoC.
+
+  - Letak konsep BLoC:
+
+    - File random_bloc.dart adalah inti BLoC: menangani input (event) dan output (stream data).
+
+    - StreamController digunakan untuk mengelola aliran data antar lapisan.
+
+    - UI (random_screen.dart) hanya mendengarkan stream melalui StreamBuilder dan tidak tahu bagaimana data dihasilkan.
+
+- Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+
+- Lalu lakukan commit dengan pesan **"W12: Jawaban Soal 13"**.
