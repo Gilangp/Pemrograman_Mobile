@@ -483,4 +483,128 @@ super.initState();
 
 - Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
 
--- Lalu lakukan commit dengan pesan **"W12: Jawaban Soal 8"**.
+- Lalu lakukan commit dengan pesan **"W12: Jawaban Soal 8"**.
+
+# Praktikum 4: Subscribe ke stream events
+
+## Langkah 1: Tambah variabel
+
+```dart
+late StreamSubscription subscription;
+```
+
+## Langkah 2: Edit initState()
+
+```dart
+@override
+void initState() {
+  numberStream = NumberStream();
+  numberStreamController = numberStream.controller;
+  Stream stream = numberStreamController.stream;
+
+  subscription = stream.listen((event) {
+    setState(() {
+      lastNumber = event;
+    });
+  });
+
+  super.initState();
+}
+```
+
+## Langkah 3: Tetap di initState()
+
+```dart
+subscription.onError((error) {
+  setState(() {
+    lastNumber = -1;
+  });
+});
+```
+
+## Langkah 4: Tambah properti onDone()
+
+```dart
+subscription.onDone(() {
+  print('OnDone was called');
+});
+```
+
+## Langkah 5: Tambah method baru
+
+```dart
+void stopStream() {
+  numberStreamController.close();
+}
+```
+
+## Langkah 6: Pindah ke method dispose()
+
+```dart
+@override
+void dispose() {
+  subscription.cancel();
+  super.dispose();
+}
+```
+
+## Langkah 7: Pindah ke method build()
+
+```dart
+ElevatedButton(
+  onPressed: () => stopStream(),
+  child: const Text('Stop Subscription'),
+),
+```
+
+## Langkah 8: Edit method addRandomNumber()
+
+```dart
+void addRandomNumber() {
+  Random random = Random();
+  int myNum = random.nextInt(10);
+
+  if (!numberStreamController.isClosed) {
+    numberStream.addNumberToSink(myNum);
+  } else {
+    setState(() {
+      lastNumber = -1;
+    });
+  }
+}
+```
+
+## Langkah 9: Run
+
+<p align = "center">
+    <img src = "img\prak4_1.gif" alt = "Output" width = "400"/>
+</p>
+
+## Langkah 10: Tekan button ‘Stop Subscription'
+
+<p align = "left">
+    <img src = "img\prak4_2.png" alt = "Output" width = "200"/>
+</p>
+
+**Soal 9**
+
+- Jelaskan maksud kode langkah 2, 6 dan 8 tersebut!
+
+  - Langkah 2
+
+    Pada langkah ini, kita membuat subscription ke stream menggunakan listen().
+    Subscription ini mendengarkan setiap event (data baru) yang dikirimkan oleh stream dan menampilkannya di UI dengan setState().
+
+  - Langkah 6
+
+    Di method dispose(), dilakukan pemanggilan subscription.cancel() agar berhenti mendengarkan stream ketika widget dihancurkan.
+    Tujuannya untuk menghindari memory leak karena stream yang masih aktif setelah widget ditutup.
+
+  - Langkah 8
+
+    Pada langkah ini, dilakukan pengecekan if (!numberStreamController.isClosed) sebelum menambah data baru.
+    Hal ini mencegah error saat mencoba menambahkan data ke stream yang sudah ditutup.
+
+- Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+
+- Lalu lakukan commit dengan pesan **"W12: Jawaban Soal 9"**.
