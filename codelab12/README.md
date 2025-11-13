@@ -608,3 +608,131 @@ void addRandomNumber() {
 - Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
 
 - Lalu lakukan commit dengan pesan **"W12: Jawaban Soal 9"**.
+
+# Praktikum 5: Multiple stream subscriptions
+
+## Langkah 1: Buka file main.dart
+
+```dart
+late StreamSubscription subscription2;
+String values = '';
+```
+
+## Langkah 2: Edit initState()
+
+```dart
+@override
+void initState() {
+  numberStream = NumberStream();
+  numberStreamController = numberStream.controller;
+  Stream stream = numberStreamController.stream;
+
+  subscription = stream.listen((event) {
+    setState(() {
+      values += '$event -';
+    });
+  });
+
+  subscription2 = stream.listen((event) {
+    setState(() {
+      values += '$event -';
+    });
+  });
+
+  super.initState();
+}
+```
+
+## Langkah 3: Run
+
+<p align = "left">
+    <img src = "img\prak5_1.png" alt = "Output" width = "200"/>
+</p>
+
+**Soal 10**
+
+- Jelaskan mengapa error itu bisa terjadi ?
+
+  error tersebut terjadi karena secara default Stream di Dart adalah single-subscription stream, yang berarti hanya satu subscriber yang dapat mendengarkan aliran data dari stream tersebut.
+  Ketika Anda mencoba untuk menambahkan subscription kedua ke stream yang sama (stream.listen(...) lagi), maka Dart akan menolak dan menampilkan error “Bad state: Stream has already been listened to”.
+
+## Langkah 4: Set broadcast stream
+
+```dart
+@override
+void initState() {
+  numberStream = NumberStream();
+  numberStreamController = numberStream.controller;
+
+  Stream stream = numberStreamController.stream.asBroadcastStream();
+
+  subscription = stream.listen((event) {
+    setState(() {
+      values += '$event -';
+    });
+  });
+
+  subscription2 = stream.listen((event) {
+    setState(() {
+      values += '$event -';
+    });
+  });
+
+  super.initState();
+}
+```
+
+## Langkah 5: Edit method build()
+
+```dart
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('Multiple Stream Subscriptions'),
+      titleTextStyle: const TextStyle(fontSize: 20, color: Colors.white),
+      backgroundColor: Colors.blue,
+    ),
+    body: SizedBox(
+      width: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            values,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 18),
+          ),
+          ElevatedButton(
+            onPressed: () => addRandomNumber(),
+            child: const Text('New Random Number'),
+          ),
+          ElevatedButton(
+            onPressed: () => stopStream(),
+            child: const Text('Stop Subscription'),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+```
+
+## Langkah 6: Run
+
+<p align = "left">
+    <img src = "img\prak5_2.gif" alt = "Output" width = "400"/>
+</p>
+
+**Soal 11**
+
+- Jelaskan mengapa hal itu bisa terjadi ?
+
+  karena stream sudah diubah menjadi broadcast stream, yang memungkinkan lebih dari satu subscription mendengarkan data yang sama.
+  Setiap kali ada data baru dikirim ke stream (numberStream.addNumberToSink()), semua subscriber yang terdaftar akan menerima event yang sama secara bersamaan.
+  Karena ada dua subscription aktif, setiap event (angka baru) diterima dan diproses dua kali, sehingga tampilan teks menampilkan dua hasil yang sama berurutan.
+
+- Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+
+- Lalu lakukan commit dengan pesan **"W12: Jawaban Soal 10,11"**.
