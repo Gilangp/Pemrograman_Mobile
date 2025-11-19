@@ -525,3 +525,161 @@ Jalankan aplikasi. Tidak akan ada perubahan visual, tetapi kode Anda kini lebih 
 <p align = "center">
     <img src = "img/prak3.png" alt = "Output" width = "400"/>
 </p>
+
+---
+
+# Praktikum 4: SharedPreferences
+
+## Langkah 1-2: Tambahkan dan Install Dependensi
+
+Di Terminal, tambahkan package shared_preferences:
+
+```bash
+flutter pub add shared_preferences
+```
+
+Dependensi telah ditambahkan ke `pubspec.yaml`:
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  shared_preferences: ^2.5.3
+```
+
+## Langkah 3: Lakukan Import
+
+Di file `lib/main.dart`, tambahkan import untuk shared_preferences:
+
+```dart
+import 'package:shared_preferences/shared_preferences.dart';
+```
+
+## Langkah 4: Tambahkan Variabel appCounter
+
+Di dalam class `_MyHomePageState`, deklarasikan variabel appCounter:
+
+```dart
+int appCounter = 0;
+```
+
+## Langkah 5-9: Buat Method readAndWritePreference
+
+Buat method asinkron yang berfungsi untuk membaca, increment, dan menyimpan counter:
+
+```dart
+Future<void> readAndWritePreference() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  appCounter = prefs.getInt('appCounter') ?? 0;
+  appCounter++;
+  await prefs.setInt('appCounter', appCounter);
+  setState(() {
+    appCounter = appCounter;
+  });
+}
+```
+
+## Langkah 10: Panggil di initState()
+
+Panggil `readAndWritePreference()` di `initState()` agar penghitung dibaca dan di-increment saat aplikasi dibuka:
+
+```dart
+@override
+void initState() {
+  super.initState();
+  readJsonFile().then((value) {
+    setState(() {
+      myPizzas = value;
+    });
+  });
+  readAndWritePreference();
+}
+```
+
+## Langkah 11: Perbarui Tampilan (body)
+
+
+```dart
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('Shared Preferences - gilangp'),
+      backgroundColor: Colors.orange,
+    ),
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'You have opened the app $appCounter times.',
+            style: const TextStyle(fontSize: 16),
+          ),
+          const SizedBox(height: 32),
+          ElevatedButton(
+            onPressed: () {
+              deletePreference();
+            },
+            child: const Text('Reset counter'),
+          )
+        ],
+      ),
+    ),
+  );
+}
+```
+## Langkah 12: Run
+
+
+<p align = "center">
+    <img src = "img/prak4_1.png" alt = "Soal 6 Output" width = "400"/>
+</p>
+
+## Langkah 13: Buat Method deletePreference()
+
+Tambahkan method asinkron deletePreference() yang berfungsi untuk menghapus data menggunakan prefs.clear():
+
+```dart
+Future<void> deletePreference() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.clear();
+  setState(() {
+    appCounter = 0;
+  });
+}
+```
+
+## Langkah 14: Hubungkan deletePreference() ke Tombol Reset
+
+Connect method `deletePreference()` ke tombol 'Reset counter' dengan mengisi `onPressed`:
+
+```dart
+ElevatedButton(
+  onPressed: () {
+    deletePreference();
+  },
+  child: const Text('Reset counter'),
+)
+```
+
+Atau menggunakan method reference yang lebih singkat (Dart recommended style):
+
+```dart
+ElevatedButton(
+  onPressed: deletePreference,
+  child: const Text('Reset counter'),
+)
+```
+
+## Langkah 15: Run dan Test Reset Functionality
+
+Jalankan aplikasi. Tombol reset sekarang akan berfungsi, menghapus semua pasangan kunci-nilai dan mereset hitungan.
+
+**Soal 6**
+
+Capture hasil praktikum Anda menunjukkan seluruh fitur berfungsi:
+
+<p align = "center">
+    <img src = "img/prak4_2.gif" alt = "Soal 6 - Reset Demo" width = "400"/>
+</p>
