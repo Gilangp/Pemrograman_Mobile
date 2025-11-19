@@ -787,3 +787,139 @@ Widget build(BuildContext context) {
 
 Capture hasil praktikum Anda menunjukkan path provider berfungsi:
 
+- Lakukan commit hasil jawaban Soal 7 dengan pesan **"W13: Jawaban Soal 7"**
+
+---
+
+# Praktikum 6: Akses Filesystem dengan Direktori
+
+## Langkah 1: Import dart:io
+
+Di file `lib/main.dart`, tambahkan import untuk pustaka dart:io:
+
+```dart
+import 'dart:io';
+```
+
+## Langkah 2: Tambahkan Variabel File dan Text
+
+Di State class `_MyHomePageState`, tambahkan variabel untuk file dan konten teks:
+
+```dart
+late File myFile;
+String fileText = '';
+```
+
+
+## Langkah 3: Buat Method writeFile()
+
+Buat method asinkron yang menulis data ke file menggunakan `writeAsString()`:
+
+```dart
+Future<bool> writeFile() async {
+  try {
+    await myFile.writeAsString('Gilang Purnomo, 2341720042');
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+```
+
+## Langkah 4: Inisialisasi File di initState()
+
+Update `initState()` untuk inisialisasi myFile dan panggil writeFile():
+
+```dart
+@override
+void initState() {
+  super.initState();
+  getPaths().then((_) {
+    myFile = File('$documentsPath/pizzas.txt');
+    writeFile();
+  });
+}
+```
+
+## Langkah 5: Buat Method readFile()
+
+Buat method asinkron untuk membaca konten file:
+
+```dart
+Future<bool> readFile() async {
+  try {
+    String fileContent = await myFile.readAsString();
+    setState(() {
+      fileText = fileContent;
+    });
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+```
+
+## Langkah 6: Update UI dengan Tombol Read File
+
+Tambahkan ElevatedButton dan Text untuk menampilkan konten file:
+
+```dart
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('Path Provider'),
+      backgroundColor: Colors.blue,
+    ),
+    body: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text('Doc path: $documentsPath'),
+        Text('Temp path: $tempPath'),
+        ElevatedButton(
+          onPressed: () => readFile(),
+          child: const Text('Read File'),
+        ),
+        Text(fileText),
+      ],
+    ),
+  );
+}
+```
+
+## Langkah 7: Run
+
+Jalankan aplikasi:
+
+<p align = "center">
+    <img src = "img/prak6.png" alt = "Soal 8 - File I/O Output" width = "400"/>
+</p>
+
+**Soal 8**
+
+**Jelaskan maksud kode pada Langkah 3 dan Langkah 7!**
+
+**Jawaban:**
+
+**Langkah 3 - Method writeFile():**
+- **Maksud**: Menulis data string ke file di storage device
+- **Cara kerja**:
+  - `await myFile.writeAsString()` mengeksekusi operasi penulisan secara asinkron
+  - Method ini akan membuat file jika tidak ada, atau menimpa konten jika file sudah ada
+  - String yang ditulis: "Gilang Purnomo, 2341720042" (nama lengkap dan NIM)
+  - Dipanggil saat aplikasi pertama kali dijalankan untuk inisialisasi data
+  - Try-catch menangani error jika penulisan gagal (permission denied, storage full, dll)
+- **Kegunaan**: Menyimpan data secara permanen di file sistem sehingga data tetap ada setelah aplikasi ditutup
+
+**Langkah 7 - Menjalankan Aplikasi:**
+- **Maksud**: Menguji keseluruhan fungsi file I/O (tulis dan baca)
+- **Alur eksekusi**:
+  1. Aplikasi dimulai, getPaths() mengambil path direktori
+  2. writeFile() dipanggil secara otomatis untuk menulis data awal ke file `pizzas.txt`
+  3. User melihat UI dengan path directories
+  4. User menekan tombol "Read File"
+  5. readFile() dipanggil, membaca isi `pizzas.txt`
+  6. setState() update UI, menampilkan: "Gilang Purnomo, 2341720042"
+- **Hasil**: Demonstrasi lengkap dari write-read cycle pada file system
+
+Capture hasil praktikum Anda menunjukkan file I/O berfungsi:
