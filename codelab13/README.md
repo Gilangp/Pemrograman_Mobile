@@ -443,3 +443,85 @@ Meskipun data tidak konsisten, aplikasi berhasil menampilkan dengan fallback val
 3. **Napoli** - (description = null → string kosong)
 4. **Carciofi** - Pizza with tomato, fresh mozzarella and artichokes
 5. **Bufala** - (description missing → string kosong)
+
+- Lakukan commit hasil jawaban Soal 5 dengan pesan **"W13: Jawaban Soal 5"**
+
+---
+
+# Praktikum 3: Menangani Error JSON dengan Konstanta
+
+## Langkah 1: Buka pizza.dart dan Buat Konstanta
+
+Di bagian atas file `lib/models/pizza.dart`, di luar class Pizza, deklarasikan konstanta untuk setiap kunci JSON:
+
+```dart
+const String keyId = 'id';
+const String keyName = 'pizzaName';
+const String keyDescription = 'description';
+const String keyPrice = 'price';
+const String keyImage = 'imageUrl';
+```
+
+## Langkah 2: Perbarui fromJson() menggunakan Konstanta
+
+Update constructor `Pizza.fromJson()` untuk menggunakan konstanta yang telah dibuat:
+
+```dart
+Pizza.fromJson(Map<String, dynamic> json)
+    : id = int.tryParse(json[keyId].toString()) ?? 0,
+      pizzaName = json[keyName] != null
+          ? json[keyName].toString()
+          : 'No name',
+      description = json[keyDescription] != null
+          ? json[keyDescription].toString()
+          : '',
+      price = double.tryParse(json[keyPrice].toString()) ?? 0,
+      imageUrl = json[keyImage] ?? '';
+```
+
+## Langkah 3: Perbarui toJson() menggunakan Konstanta
+
+Update method `toJson()` agar menggunakan konstanta yang sama:
+
+```dart
+Map<String, dynamic> toJson() {
+  return {
+    keyId: id,
+    keyName: pizzaName,
+    keyDescription: description,
+    keyPrice: price,
+    keyImage: imageUrl,
+  };
+}
+```
+
+## Langkah 4: Run
+
+Jalankan aplikasi. Tidak akan ada perubahan visual, tetapi kode Anda kini lebih safe dan maintainable.
+
+**Soal 5**
+
+- **Jelaskan maksud kode lebih safe dan maintainable!**
+
+  **Safe (Aman):**
+  - Mencegah typo pada nama kunci JSON yang dapat menyebabkan bug sulit dilacak
+  - Contoh: Jika ada typo `json['pizzzaName']` (3 huruf z), kode tetap berjalan tapi return null
+  - Dengan konstanta, typo akan terdeteksi saat compile time (IDE akan memberikan error)
+  - Type checking: konstanta berjenis String, sehingga IDE dapat memvalidasi
+
+  **Maintainable (Mudah Dirawat):**
+  - Jika struktur JSON berubah (misalnya 'pizzaName' menjadi 'name'), cukup ubah konstanta sekali
+    ```dart
+    // Sebelum: Harus mengubah di 2 tempat (fromJson dan toJson)
+    // Sesudah: Cukup ubah 1 konstanta
+    const String keyName = 'name';  // ubah di sini saja
+    ```
+  - Single source of truth: semua referensi menggunakan konstanta yang sama
+  - Lebih mudah di-track dengan search/find di IDE
+  - Dokumentasi implisit: nama konstanta menunjukkan apa yang diwakilinya
+
+- Capture hasil praktikum Anda:
+
+<p align = "center">
+    <img src = "img/prak3.png" alt = "Output" width = "400"/>
+</p>
