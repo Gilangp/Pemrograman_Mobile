@@ -683,3 +683,107 @@ Capture hasil praktikum Anda menunjukkan seluruh fitur berfungsi:
 <p align = "center">
     <img src = "img/prak4_2.gif" alt = "Soal 6 - Reset Demo" width = "400"/>
 </p>
+
+---
+
+# Praktikum 5: Akses Filesystem dengan path_provider
+
+## Langkah 1: Tambahkan Dependensi
+
+Tambahkan package path_provider melalui Terminal:
+
+```bash
+flutter pub add path_provider
+```
+
+## Langkah 2: Lakukan Import
+
+```dart
+import 'package:path_provider/path_provider.dart';
+```
+
+## Langkah 3: Tambahkan Variabel Path State
+
+
+```dart
+String documentsPath = '';
+String tempPath = '';
+```
+
+## Langkah 4: Buat Method getPaths()
+
+Buat method asinkron yang menggunakan `getApplicationDocumentsDirectory()` dan `getTemporaryDirectory()` untuk mengambil jalur sistem file:
+
+```dart
+Future<void> getPaths() async {
+  final docDir = await getApplicationDocumentsDirectory();
+  final tempDir = await getTemporaryDirectory();
+  setState(() {
+    documentsPath = docDir.path;
+    tempPath = tempDir.path;
+  });
+}
+```
+
+## Langkah 5: Panggil getPaths() di initState()
+
+Panggil `getPaths()` di `initState()`:
+
+```dart
+@override
+void initState() {
+  super.initState();
+  readJsonFile().then((value) {
+    setState(() {
+      myPizzas = value;
+    });
+  });
+  readAndWritePreference();
+  getPaths();
+}
+```
+
+## Langkah 6: Perbarui Tampilan
+
+Perbarui body Scaffold untuk menampilkan path dengan layout yang simple dan clean:
+
+```dart
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('Path Provider'),
+      backgroundColor: Colors.blue,
+    ),
+    body: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const SizedBox(height: 32),
+          Text(
+            'Doc path: $documentsPath',
+            style: const TextStyle(fontSize: 14),
+          ),
+          const SizedBox(height: 64),
+          Text(
+            'Temp path: $tempPath',
+            style: const TextStyle(fontSize: 14),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+```
+
+## Langkah 7: Run
+
+<p align = "center">
+    <img src = "img/prak5.png" alt = "Soal 7 - Path Provider Output" width = "400"/>
+</p>
+
+**Soal 7**
+
+Capture hasil praktikum Anda menunjukkan path provider berfungsi:
+
