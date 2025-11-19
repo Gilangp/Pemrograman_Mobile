@@ -923,3 +923,147 @@ Jalankan aplikasi:
 - **Hasil**: Demonstrasi lengkap dari write-read cycle pada file system
 
 Capture hasil praktikum Anda menunjukkan file I/O berfungsi:
+
+---
+
+# Praktikum 7: Menyimpan Data dengan Enkripsi/Dekripsi
+
+## Langkah 1: Tambahkan Dependensi
+
+Tambahkan package flutter_secure_storage melalui Terminal:
+
+```bash
+flutter pub add flutter_secure_storage
+```
+
+## Langkah 2: Lakukan Import
+
+Di file `lib/main.dart`, impor package flutter_secure_storage:
+
+```dart
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+```
+
+## Langkah 3: Tambahkan Variabel dan Controller
+
+Di State class `_MyHomePageState`, tambahkan TextEditingController dan variabel untuk menyimpan data:
+
+```dart
+final pwdController = TextEditingController();
+String myPass = '';
+```
+
+## Langkah 4: Inisialisasi Secure Storage
+
+Di State class, inisialisasi FlutterSecureStorage dan tentukan kuncinya:
+
+```dart
+final storage = const FlutterSecureStorage();
+final myKey = 'myPass';
+```
+
+## Langkah 5: Buat Method writeToSecureStorage()
+
+Buat method asinkron untuk menulis data ke secure storage:
+
+```dart
+Future<void> writeToSecureStorage() async {
+  try {
+    await storage.write(key: myKey, value: pwdController.text);
+    print('Data saved securely');
+  } catch (e) {
+    print('Error writing to secure storage: $e');
+  }
+}
+```
+
+## Langkah 6: Buat Method readFromSecureStorage()
+
+Buat method asinkron untuk membaca data dari secure storage:
+
+```dart
+Future<String> readFromSecureStorage() async {
+  try {
+    String? secret = await storage.read(key: myKey);
+    return secret ?? '';
+  } catch (e) {
+    print('Error reading from secure storage: $e');
+    return '';
+  }
+}
+```
+
+## Langkah 7: Edit build() untuk UI
+
+Perbarui method build() dengan TextField dan tombol Save/Read:
+
+```dart
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('Secure Storage - gilangp'),
+      backgroundColor: Colors.deepPurple,
+    ),
+    body: SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const SizedBox(height: 20),
+          const Text(
+            'Super Secret String!',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const Divider(thickness: 2),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: pwdController,
+              obscureText: true,
+              decoration: InputDecoration(
+                hintText: 'Enter your secret',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: Colors.grey[200],
+              ),
+            ),
+          ),
+          // ... buttons dan display
+        ],
+      ),
+    ),
+  );
+}
+```
+
+## Langkah 8: Hubungkan Read ke Tombol
+
+Hubungkan method read ke tombol "Read Value" dengan setState():
+
+```dart
+ElevatedButton(
+  onPressed: () {
+    readFromSecureStorage().then((value) {
+      setState(() {
+        myPass = value;
+      });
+    });
+  },
+  child: const Text('Read Value'),
+),
+```
+
+## Langkah 9: Run
+
+Jalankan aplikasi:
+
+<p align = "center">
+    <img src = "img/prak7.gif" alt = "Soal 9 - Secure Storage Demo" width = "400"/>
+</p>
+
+**Soal 9**
+
+- Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+

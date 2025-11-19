@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,6 +32,11 @@ class _MyHomePageState extends State<MyHomePage> {
   String tempPath = '';
   late File myFile;
   String fileText = '';
+
+  final pwdController = TextEditingController();
+  String myPass = '';
+  final storage = const FlutterSecureStorage();
+  final myKey = 'myPass';
 
   @override
   void initState() {
@@ -103,31 +109,103 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  Future<void> writeToSecureStorage() async {
+    try {
+      await storage.write(key: myKey, value: pwdController.text);
+      print('Data saved securely');
+    } catch (e) {
+      print('Error writing to secure storage: $e');
+    }
+  }
+
+  Future<String> readFromSecureStorage() async {
+    try {
+      String? secret = await storage.read(key: myKey);
+      return secret ?? '';
+    } catch (e) {
+      print('Error reading from secure storage: $e');
+      return '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Path Provider - gilangp'),
-        backgroundColor: Colors.blue,
+        title: const Text('Secure Storage - gilangp'),
+        backgroundColor: Colors.deepPurple,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(height: 20),
+            const Text(
+              'Super Secret String!',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const Divider(thickness: 2),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                controller: pwdController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  hintText: 'Enter your secret',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text('Doc path: $documentsPath'),
-                const SizedBox(height: 8),
-                Text('Temp path: $tempPath'),
+                ElevatedButton(
+                  onPressed: () {
+                    writeToSecureStorage();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Value saved securely!')),
+                    );
+                  },
+                  child: const Text('Save Value'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    readFromSecureStorage().then((value) {
+                      setState(() {
+                        myPass = value;
+                      });
+                    });
+                  },
+                  child: const Text('Read Value'),
+                ),
               ],
             ),
-          ),
-          ElevatedButton(
-            onPressed: () => readFile(),
-            child: const Text('Read File'),
-          ),
-        ],
+            const SizedBox(height: 30),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.blue, width: 2),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  myPass.isEmpty ? 'Data will appear here' : myPass,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
