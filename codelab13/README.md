@@ -381,3 +381,65 @@ Jalankan aplikasi. Periksa Debug Console untuk melihat List objek Pizza telah be
 ```json
 [{"id":1,"pizzaName":"Margherita","description":"Pizza with tomato, fresh mozzarella and basil","price":8.75,"imageUrl":"images/margherita.png"},{"id":2,"pizzaName":"Marinara","description":"Pizza with tomato, garlic and oregano","price":7.5,"imageUrl":"images/marinara.png"},{"id":3,"pizzaName":"Napoli","description":"Pizza with tomato, garlic and anchovies","price":9.5,"imageUrl":"images/marinara.png"},{"id":4,"pizzaName":"Carciofi","description":"Pizza with tomato, fresh mozzarella and artichokes","price":8.8,"imageUrl":"images/marinara.png"},{"id":5,"pizzaName":"Bufala","description":"Pizza with tomato, buffalo mozzarella and basil","price":12.5,"imageUrl":"images/marinara.png"}]
 ```
+
+---
+
+# Praktikum 2: Handle Kompatibilitas Data JSON
+
+## Langkah 1-2: Simulasikan Error
+
+File `pizzalist_broken.json` telah dibuat dengan data yang tidak konsisten menampilkan berbagai masalah:
+- **ID**: Mix of String ("1", "3", "5") dan Int (2, 4)
+- **pizzaName**: Ada yang null (item 2)
+- **description**: Ada yang null (item 3)
+- **price**: Mix of String dan Double
+- **imageUrl**: Ada yang null atau missing
+
+## Langkah 3-10: Implementasi Error Handling
+
+Update `Pizza.fromJson()` di `lib/models/pizza.dart`:
+
+```dart
+Pizza.fromJson(Map<String, dynamic> json)
+    : id = int.tryParse(json['id'].toString()) ?? 0,
+      pizzaName = json['pizzaName'] != null
+          ? json['pizzaName'].toString()
+          : 'No name',
+      description = json['description'] != null
+          ? json['description'].toString()
+          : '',
+      price = double.tryParse(json['price'].toString()) ?? 0,
+      imageUrl = json['imageUrl'] ?? '';
+```
+
+**Penjelasan Teknik Error Handling:**
+
+1. **tryParse untuk Type Casting**: Mengubah String ke Int/Double dengan aman menggunakan `int.tryParse()` dan `double.tryParse()`
+2. **Null Coalescing (`??`)**: Memberikan default value jika hasil parsing null
+3. **Ternary Operator**: Memeriksa null sebelum konversi untuk error message yang lebih user-friendly
+4. **toString()**: Memastikan semua field String benar-benar String
+
+## Langkah 11: Run
+
+Update `main.dart` untuk menggunakan `pizzalist_broken.json`:
+
+```dart
+.loadString('assets/pizzalist_broken.json');
+```
+
+
+**Soal 4**
+
+- Capture hasil running aplikasi dengan data pizzalist_broken.json:
+
+<p align = "center">
+    <img src = "img/prak2.png" alt = "Output" width = "400"/>
+</p>
+
+**Output yang Ditampilkan:**
+Meskipun data tidak konsisten, aplikasi berhasil menampilkan dengan fallback values:
+1. **Margherita** - Pizza with tomato, fresh mozzarella and basil
+2. **No name** - Pizza with tomato, garlic and oregano (pizzaName = null → "No name")
+3. **Napoli** - (description = null → string kosong)
+4. **Carciofi** - Pizza with tomato, fresh mozzarella and artichokes
+5. **Bufala** - (description missing → string kosong)
