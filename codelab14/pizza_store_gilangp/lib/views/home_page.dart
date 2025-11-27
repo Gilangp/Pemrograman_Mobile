@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/pizza.dart';
 import '../controllers/pizza_controller.dart';
+import '../services/httphelper.dart';
 import 'widgets/pizza_card.dart';
 import 'widgets/loading_widget.dart';
 import 'widgets/error_widget.dart' as error_widgets;
@@ -62,19 +63,48 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(12),
               itemCount: pizzas.length,
               itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PizzaDetailScreen(
-                          pizza: pizzas[index],
-                          isNew: false,
-                        ),
+                return Dismissible(
+                  key: Key(pizzas[index].id.toString()),
+                  onDismissed: (direction) {
+                    HttpHelper helper = HttpHelper();
+                    final deletedPizza = pizzas[index];
+                    pizzas.removeAt(index);
+                    helper.deletePizza(deletedPizza.id ?? 0);
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('${deletedPizza.pizzaName} deleted'),
+                        duration: const Duration(seconds: 2),
                       ),
                     );
                   },
-                  child: PizzaCard(pizza: pizzas[index]),
+                  background: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.red.shade600,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.only(right: 20),
+                    child: const Icon(
+                      Icons.delete_outline,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PizzaDetailScreen(
+                            pizza: pizzas[index],
+                            isNew: false,
+                          ),
+                        ),
+                      );
+                    },
+                    child: PizzaCard(pizza: pizzas[index]),
+                  ),
                 );
               },
             ),

@@ -43,3 +43,12 @@
     <p align = "center">
         <img src = "img/praktikum3.gif" alt = "Output" width = "400"/>
     </p>
+
+## Praktikum 4: Menghapus Data dari Web Servic (DELETE)
+
+**Soal 4**
+- Capture hasil aplikasi Anda berupa GIF di README dan lakukan commit hasil jawaban Soal 4 dengan pesan **"W14: Jawaban Soal 4"**
+
+    <p align = "center">
+        <img src = "img/praktikum4.gif" alt = "Output" width = "400"/>
+    </p>
