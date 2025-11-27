@@ -62,7 +62,20 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(12),
               itemCount: pizzas.length,
               itemBuilder: (BuildContext context, int index) {
-                return PizzaCard(pizza: pizzas[index]);
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PizzaDetailScreen(
+                          pizza: pizzas[index],
+                          isNew: false,
+                        ),
+                      ),
+                    );
+                  },
+                  child: PizzaCard(pizza: pizzas[index]),
+                );
               },
             ),
           );
@@ -73,7 +86,10 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const PizzaDetailScreen()),
+            MaterialPageRoute(
+              builder: (context) =>
+                  PizzaDetailScreen(pizza: Pizza(), isNew: true),
+            ),
           );
         },
         child: const Icon(Icons.add),

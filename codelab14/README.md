@@ -30,3 +30,16 @@
     <p align = "center">
         <img src = "img/praktikum2.gif" alt = "Output" width = "400"/>
     </p>
+
+## Praktikum 3: Memperbarui Data di Web Service (PUT)
+
+**Soal 3**
+- Ubah salah satu data dengan Nama dan NIM Anda, lalu perhatikan hasilnya di Wiremock.
+    <p align = "center">
+        <img src = "img/prak3.png" alt = "Output" width = "400"/>
+    </p>
+
+- Capture hasil aplikasi Anda berupa GIF di README dan lakukan commit hasil jawaban Soal 3 dengan pesan **"W14: Jawaban Soal 3"**
+    <p align = "center">
+        <img src = "img/praktikum3.gif" alt = "Output" width = "400"/>
+    </p>
