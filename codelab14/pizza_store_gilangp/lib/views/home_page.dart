@@ -4,6 +4,7 @@ import '../controllers/pizza_controller.dart';
 import 'widgets/pizza_card.dart';
 import 'widgets/loading_widget.dart';
 import 'widgets/error_widget.dart' as error_widgets;
+import 'pizza_detail.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -66,6 +67,16 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFF1976D2),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const PizzaDetailScreen()),
+          );
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }

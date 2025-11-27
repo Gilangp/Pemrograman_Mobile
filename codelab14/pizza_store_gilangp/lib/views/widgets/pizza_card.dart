@@ -51,7 +51,7 @@ class PizzaCard extends StatelessWidget {
                   children: [
                     // Pizza Name
                     Text(
-                      pizza.pizzaName,
+                      pizza.pizzaName ?? 'N/A',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -63,7 +63,7 @@ class PizzaCard extends StatelessWidget {
                     const SizedBox(height: 8),
                     // Description
                     Text(
-                      pizza.description,
+                      pizza.description ?? 'N/A',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey[700],
@@ -84,7 +84,7 @@ class PizzaCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
-                        '€ ${pizza.price.toStringAsFixed(2)}',
+                        '€ ${pizza.price?.toStringAsFixed(2) ?? '0.00'}',
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -107,7 +107,7 @@ class PizzaCard extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  '#${pizza.id}',
+                  '#${pizza.id ?? 0}',
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,

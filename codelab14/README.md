@@ -20,3 +20,13 @@
     <p align = "center">
         <img src = "img/praktikum1.gif" alt = "Output" width = "400"/>
     </p>
+
+## Praktikum 2: Mengirim Data ke Web Service (POST)
+
+**Soal 2**
+- Tambahkan **field** baru dalam JSON maupun POST ke Wiremock!
+
+- Capture hasil aplikasi Anda berupa GIF di README dan lakukan commit hasil jawaban Soal 2 dengan pesan **"W14: Jawaban Soal 2"**
+    <p align = "center">
+        <img src = "img/praktikum2.gif" alt = "Output" width = "400"/>
+    </p>
